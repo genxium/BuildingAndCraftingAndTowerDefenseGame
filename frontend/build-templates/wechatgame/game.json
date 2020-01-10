@@ -1,0 +1,9 @@
+{
+  "deviceOrientation": "portrait",
+  "networkTimeout": {
+    "request": 500000,
+    "connectSocket": 500000,
+    "uploadFile": 500000,
+    "downloadFile": 500000
+  }
+}

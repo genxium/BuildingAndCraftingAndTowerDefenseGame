@@ -1,0 +1,9 @@
+{
+  "wechatgame": {
+    "appid": "wxa7a50eacff0a96d1",
+    "orientation": "portrait",
+    "separate_engine": false,
+    "REMOTE_SERVER_ROOT": "https://mineralchem.lokcol.com/wechat-game/",
+    "subContext": ""
+  }
+}

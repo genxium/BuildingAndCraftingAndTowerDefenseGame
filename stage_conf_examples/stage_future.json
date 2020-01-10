@@ -1,0 +1,16 @@
+{
+  "stageId": 99999,
+  "knapsack": [],
+  "playerRecipeList": [],
+  "stageBuildableLevelBindingList": [],
+  "syncData": {},
+  "goal": {
+    "passScore": 100000,
+    "timeLimitSeconds": 100000,
+    "questList": []
+  },
+  "diamondPrice": 0,
+  "starPrice": 0,
+  "attackWaveList": [],
+  "ticketPrice": 1
+}

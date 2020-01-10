@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b3e6d206-a6c9-4050-8fee-80dfcd96e912",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":236,\"name\":\"1_1\",\"height\":203},{\"x\":239,\"y\":1,\"width\":131,\"name\":\"1_2\",\"height\":180},{\"x\":1,\"y\":358,\"width\":116,\"name\":\"1_3\",\"height\":137},{\"x\":239,\"y\":183,\"width\":155,\"name\":\"1_4\",\"height\":149},{\"x\":372,\"y\":61,\"width\":39,\"name\":\"4\",\"height\":76},{\"x\":152,\"y\":206,\"width\":75,\"name\":\"Logo\",\"height\":102},{\"x\":372,\"y\":139,\"width\":33,\"name\":\"Food\",\"height\":41},{\"frameY\":0,\"y\":446,\"frameWidth\":42,\"height\":51,\"frameHeight\":51,\"width\":42,\"name\":\"Tomato\",\"frameX\":0,\"x\":119},{\"x\":152,\"y\":334,\"width\":149,\"name\":\"1_5\",\"height\":110},{\"frameY\":0,\"y\":446,\"frameWidth\":33,\"height\":46,\"frameHeight\":46,\"width\":32,\"name\":\"Logo_1\",\"frameX\":0,\"x\":163},{\"frameY\":-2,\"y\":206,\"frameWidth\":152,\"height\":150,\"frameHeight\":154,\"width\":149,\"name\":\"Led_1\",\"frameX\":-2,\"x\":1},{\"frameY\":-1,\"y\":1,\"frameWidth\":60,\"height\":58,\"frameHeight\":60,\"width\":58,\"name\":\"Led_4\",\"frameX\":-1,\"x\":372}],\"width\":512,\"name\":\"Level_1\",\"imagePath\":\"Level_1_tex.png\",\"height\":512}",
+  "texture": "21a49be5-fbe7-4798-955e-9cb736c5fb0e",
+  "subMetas": {}
+}

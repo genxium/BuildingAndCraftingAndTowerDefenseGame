@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{550,550}</string>
+                <key>spriteSourceSize</key>
+                <string>{550,550}</string>
+                <key>textureRect</key>
+                <string>{{0,0},{550,550}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>IceCreamVan.png</string>
+            <key>size</key>
+            <string>{550,550}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:4c85b7b7005c364bb363b7e88d58b17b:be40226eefb2d6942668c4e2673992e3:0245d0e6c94c749052abae02289b1aed$</string>
+            <key>textureFileName</key>
+            <string>IceCreamVan.png</string>
+        </dict>
+    </dict>
+</plist>

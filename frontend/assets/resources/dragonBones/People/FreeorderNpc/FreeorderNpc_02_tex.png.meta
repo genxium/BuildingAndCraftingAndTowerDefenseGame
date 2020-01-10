@@ -1,0 +1,34 @@
+{
+  "ver": "2.3.3",
+  "uuid": "2b09ba8c-98d4-480e-abad-61836c4a4685",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "platformSettings": {},
+  "subMetas": {
+    "FreeorderNpc_02_tex": {
+      "ver": "1.0.4",
+      "uuid": "b69c4a12-9efb-4226-acd7-90fde7046516",
+      "rawTextureUuid": "2b09ba8c-98d4-480e-abad-61836c4a4685",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0.5,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 254,
+      "height": 125,
+      "rawWidth": 256,
+      "rawHeight": 128,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,238 @@
+syntax = "proto3";
+package mineralchem;
+
+message Buildable {
+    int32 id = 1;
+    int32 type = 2;
+    int32 discreteWidth = 3;
+    int32 discreteHeight = 4;
+    string displayName = 5;
+    int32 autoCollect = 6;
+}
+
+message BuildableLevelBinding {
+    int32 id = 1;
+    Buildable buildable = 2;
+    int32 level = 3;
+    int32 buildingOrUpgradingDuration = 4;
+    int32 buildingOrUpgradingRequiredGold = 5;
+    int32 buildingOrUpgradingRequiredResidentsCount = 6;
+    double baseGoldProductionRate = 7;
+    int32 baseFoodProductionRate = 8;
+    int32 baseRiflemanProductionRequiredGold = 9;
+    int32 baseRiflemanProductionDuration = 10;
+    repeated BuildableLevelDependency dependency = 11;
+    int32 goldLimitAddition = 12;
+    int32 baseHp = 13;
+    int32 baseDamage = 14;
+}
+
+message BuildableLevelDependency {
+    int32 requiredBuildableId = 1;
+    int32 requiredBuildableCount = 2;
+    int32 requiredMinimumLevel = 3;
+    int32 targetBuildableMaxCount = 4;
+}
+
+message BuildableIngredientInteraction {
+    int32 id = 1;
+    int32 buildableId = 2;
+    int32 ingredientId = 3;
+    int32 type = 4;
+    int32 buildableLevelToUnlockDisplayName = 5;
+    int32 recipeId = 6;
+    int32 ingredientPurchasePriceCurrency = 7;
+    int32 ingredientPurchasePriceValue = 8;
+}
+
+message PlayerBuildableBinding {
+    int32 id = 1;
+    int32 topmostTileDiscretePositionX = 2;
+    int32 topmostTileDiscretePositionY = 3;
+    int32 playerId = 4;
+    Buildable buildable = 5;
+    int32 currentLevel = 6;
+    int32 state = 7;
+    int64 buildingOrUpgradingStartedAt = 8;
+    int32 immediateGoldProductionRate = 9;
+    int32 immediateRifleProductionRequiredGold = 10;
+    int32 immediateRifleProductionDuration = 11;
+    uint64 lastCollectedAt = 12;
+}
+
+message WalletStruct {
+    int32 gold = 1;
+    int32 goldLimit = 2;
+}
+
+message LegalCurrencyPaymentRecord {
+    int32 id = 1;
+    int32 channel = 2;
+    string extTrxId = 3;
+}
+
+message SyncDataStruct {
+    repeated PlayerBuildableBinding playerBuildableBindingList = 1;
+    WalletStruct wallet = 2;
+    int32 tutorialStage = 3;
+    /*
+     * For compatibility concerns, please start the next field with #6, e.g. 
+     *
+     * ```
+     * int32 newFieldName = 6;
+     * ```
+     */
+
+    map<int32, int32> questCompletedMap = 7; // <playerQuestBindingId, competedCount>
+    AccumulatedResource accumulatedResource = 8; // 记录存量resourceType数值
+    int32 comboCulmulatedCount = 9;
+    // use housekeeperLastPeriodStartedAt and housekeeperOfflineIncome temporarily. 
+    int32 housekeeperOfflineIncome = 11;
+    repeated HousekeeperBinding housekeeperBindingList = 12;
+
+}
+
+message HousekeeperBinding {
+  int64 lastPeriodStartedAt = 1;
+  int32 buildableId = 3;
+  int32 currentLevel = 4;
+}
+
+message BuildableLevelConfStruct {
+    repeated BuildableLevelBinding levelConfList = 1;
+    repeated BuildableIngredientInteraction buildableIngredientInteractionList = 2;
+}
+
+message Knapsack {
+    int32 ingredientId = 1;
+    int32 currentCount = 2;
+}
+
+message RecipeIngredientBinding {
+    int32 ingredientId = 1; 
+    int32 count = 2;
+    string prependedBinocularOperator = 3;
+}
+
+message Ingredient {
+	  int32 Id = 1;
+	  string Name = 2;
+	  int32 PriceCurrency = 3;
+	  int32 PriceValue = 4;
+	  int32 BaseProductionDurationMillis = 5;
+	  int32 ReclaimPriceCurrency = 6;
+	  int32 ReclaimPriceValue = 7;
+	  int32 BaseReclaimDurationMillis = 8;
+	  int32 Category = 9;
+}
+
+message Recipe {
+    int32 id = 1;
+    int32 targetIngredientId = 2; // Is not functioning if "0 == targetIngredientId".
+    int32 targetIngredientCount = 3; // Should be 0 iff "0 == targetIngredientId". 
+    int32 durationMillis = 4;
+    string toUnlockSimultaneouslyRecipeIdList = 5;
+    repeated RecipeIngredientBinding recipeIngredientBindingList = 6;
+}
+
+message PlayerRecipe {
+	int64 recipeId = 1;
+	int32 state = 2;
+	int64 ingredientId = 3;
+}
+
+message StageBuildableLevelDependency {
+    int32 requiredBuildableId = 1;
+    int32 requiredBuildableCount = 2;
+    int32 requiredMinimumLevel = 3;
+    int32 targetBuildableMaxCount = 4;
+}
+
+message StageBuildableLevelBinding {
+    int32 buildableId = 1;
+    int32 level = 2;
+    int32 buildingOrUpgradingDuration = 3;
+    int32 buildingOrUpgradingRequiredGold = 4;
+    int32 buildingOrUpgradingRequiredResidentsCount = 5;
+    double baseGoldProductionRate = 6;
+    int32 baseFoodProductionRate = 7;
+    int32 baseRiflemanProductionRequiredGold = 8;
+    int32 baseRiflemanProductionDuration = 9;
+    repeated StageBuildableLevelDependency dependency = 10;
+    int32 goldLimitAddition = 11;
+    int32 baseHp = 12;
+    int32 baseDamage = 13;
+}
+
+message StageGoalQuest {
+    int32 resourceType = 1;
+    int32 resourceTargetId = 2;
+    int32 resourceTargetQuantity = 3;
+    int32 completedCountRequired = 4;
+    int32 forFailing = 5;
+}
+
+message StageGoal {
+    int32 passScore = 1;
+    int32 timeLimitSeconds = 2;
+    repeated StageGoalQuest questList = 3;
+}
+
+message AttackWave {
+    int32 millisFromStart = 1;
+    map<string, int32> speciesCount = 2;    
+}
+
+message GuardSoldier {
+  string species = 1;
+  int32 tileDiscretePositionX = 2;
+  int32 tileDiscretePositionY = 3;
+  int32 teamId = 4;
+}
+
+message StageInitialState {
+    int32 stageId = 1; 
+    repeated Knapsack knapsack = 2;
+    repeated PlayerRecipe playerRecipeList = 3;
+    repeated StageBuildableLevelBinding stageBuildableLevelBindingList = 4;
+    SyncDataStruct syncData = 5;
+    
+    StageGoal goal = 6;
+    int32 diamondPrice = 7;
+    int32 starPrice = 8;
+    repeated AttackWave attackWaveList = 9;
+    repeated GuardSoldier guardSoldierList = 10;
+    int32 ticketPrice = 11;
+}
+
+message GraphSuccessorList {
+    repeated int32 listContent = 1;
+}
+
+message GraphSuccessorListDict {
+    map<int32, GraphSuccessorList> dictContent = 1;
+}
+
+message InterruptTutorialMask {
+    map<int32, GraphSuccessorListDict> visitedGroups = 1;  
+}
+
+message AccumulatedResource {
+    int32 servedCustomer = 5;
+    int32 dishSold = 6;
+    map<int32, int32> ingredientProduced = 7; // <ingredientId, completedCount>
+    int32 freeOrderIncome = 8;
+}
+
+// We'll return to the frontend the followings per-stage.
+// - GlobalScope
+// {
+//   repeated Buildable buildableList,
+//   repeated BuildableIngredientInteraction buildableIngredientInteractionList,
+//   repeated Recipe recipeList, 
+//   repeated Ingredient ingredientList, 
+// }
+// - PerPlayerStageScope
+// {
+//   StageInitialState stageInitialState,
+// }

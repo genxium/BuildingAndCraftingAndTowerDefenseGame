@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "6930c672-0d0c-4619-943c-59d508d3af76",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":389,\"width\":510,\"name\":\"Body\",\"height\":409},{\"frameWidth\":470,\"y\":800,\"frameHeight\":186,\"height\":186,\"frameX\":-2,\"width\":468,\"name\":\"黄色小花\",\"frameY\":0,\"x\":1},{\"frameWidth\":250,\"y\":800,\"frameHeight\":78,\"height\":76,\"frameX\":0,\"width\":250,\"name\":\"光gu\",\"frameY\":-2,\"x\":471},{\"frameWidth\":578,\"y\":1,\"frameHeight\":390,\"height\":386,\"frameX\":-2,\"width\":573,\"name\":\"Led_1\",\"frameY\":-2,\"x\":1}],\"imagePath\":\"Level_8_tex.png\",\"width\":1024,\"name\":\"Level_8\",\"height\":1024}",
+  "texture": "810df54b-bec9-42ab-8b5e-c7e9b07009f5",
+  "subMetas": {}
+}

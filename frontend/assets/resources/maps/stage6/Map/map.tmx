@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="isometric" renderorder="right-down" width="20" height="20" tilewidth="256" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="151">
+ <properties>
+  <property name="allowed_buildable_type" value="100"/>
+ </properties>
+ <tileset firstgid="1" source="Tile_W256_H128_S02.tsx"/>
+ <tileset firstgid="21" source="Tile_W256_H256_S01.tsx"/>
+ <tileset firstgid="27" source="Tile_W256_H128_S01.tsx"/>
+ <objectgroup id="1" name="EscapingTarget">
+  <properties>
+   <property name="type" value="ally_escaping_target"/>
+  </properties>
+  <object id="121" x="1088" y="1088">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="InitialCameraPos">
+  <object id="118" x="1440" y="1344">
+   <properties>
+    <property name="type" value="initial_camera_pos"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="2" name="floor" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzNk0sOgCAMRBvxSwS5/2mFhCa1VBTswsVLiMFh+hkDAOaGNTJkbOVeYo5M5LwLOKIX8jf+z0TetlD6eMJmLQdX30tkJGf/Ui88+DbsvV4Cq/2LFp9ZS73IEdkIPutJs2zxguA8vvRL2jH0qtG/QbF/iJSt1v3gueuZB86E566nVuqR504jG1TvD9mo6Wl5pHrJo7RLLYxQ7o4GJ27aBtY=
+  </data>
+ </layer>
+ <layer id="9" name="soldier_droparea" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi6QBYNDzbzRsEoGAUjD+ArQ8iRo7Z51AQAKvIC8w==
+  </data>
+ </layer>
+ <layer id="10" name="draft" width="20" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxTYqA+UBo1c0iYKYOGKQXUNg8EpJHwcDUPPbyQ+eSEJbXNGwWjABcAAO0OBBI=
+  </data>
+ </layer>
+ <layer id="3" name="StatefulBuildableInstanceHighlighter" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMBKAMpXNAwARMAAk
+  </data>
+ </layer>
+ <layer id="4" name="Trees" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DggCQBTKpadD2UuIse5kmisdH52NgDZR4+MGreyDQPAF6jBg8=
+  </data>
+ </layer>
+ <objectgroup id="5" name="BarrierAndShelter">
+  <properties>
+   <property name="type" value="barrier_and_shelter"/>
+  </properties>
+  <object id="128" x="1280" y="-128">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="128,384 -384,384 -384,640 128,640"/>
+  </object>
+  <object id="139" x="2912" y="1056">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-512,64 -544,-64 -1472,-32 -1472,32"/>
+  </object>
+  <object id="141" x="2464" y="1152">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="0,0 -160,32 -128,1056 0,1088"/>
+  </object>
+  <object id="142" x="2272" y="1408">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-384,0 -480,0 -480,1056 -384,1120"/>
+  </object>
+  <object id="143" x="1504" y="1088">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-512,32 -544,-64 -1472,-32 -1472,32"/>
+  </object>
+  <object id="144" x="992" y="1408">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-384,0 -480,0 -448,1024 -352,1120"/>
+  </object>
+  <object id="145" x="1376" y="1408">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-256,0 -480,0 -480,256 -256,256"/>
+  </object>
+  <object id="146" x="1888" y="1408">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-384,0 -480,0 -480,256 -384,256"/>
+  </object>
+  <object id="147" x="192" y="1152">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-96,32 -160,32 -160,1088 -96,1120"/>
+  </object>
+  <object id="148" x="2304" y="1792">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="0,384 -384,384 -384,640 0,640"/>
+  </object>
+  <object id="149" x="1408" y="1792">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="0,384 -384,384 -384,640 0,640"/>
+  </object>
+  <object id="150" x="512" y="1792">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="0,384 -384,384 -384,640 0,640"/>
+  </object>
+ </objectgroup>
+</map>

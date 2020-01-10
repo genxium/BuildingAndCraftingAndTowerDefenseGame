@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "3e39b80f-4322-493c-804d-606249de83b2",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":103,\"width\":30,\"name\":\"Arrow_1\",\"height\":14},{\"x\":33,\"y\":103,\"width\":30,\"name\":\"Arrow_1_DependencyMetOnly\",\"height\":14},{\"x\":33,\"y\":119,\"width\":30,\"name\":\"Arrow_2\",\"height\":8},{\"x\":1,\"y\":119,\"width\":30,\"name\":\"Arrow_2_DependencyMetOnly\",\"height\":8},{\"x\":1,\"y\":1,\"width\":53,\"name\":\"Arrow\",\"height\":49},{\"x\":1,\"y\":52,\"width\":53,\"name\":\"Arrow_DependencyMetOnly\",\"height\":49}],\"imagePath\":\"UpgradableIndicator_tex.png\",\"width\":64,\"name\":\"UpgradableIndicator\",\"height\":128}",
+  "texture": "ae81c45b-bc58-4416-8707-88832ec71a85",
+  "subMetas": {}
+}

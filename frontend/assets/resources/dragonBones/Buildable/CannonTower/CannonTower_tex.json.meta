@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "cec0bcb8-bf75-4594-ab5c-fb957ea9dea8",
+  "atlasJson": "{\"width\":914,\"SubTexture\":[{\"width\":195,\"y\":470,\"height\":434,\"name\":\"Level_1_CannonTower\",\"x\":686},{\"width\":183,\"y\":903,\"height\":76,\"name\":\"Level_1_Light\",\"x\":1},{\"width\":195,\"y\":1,\"height\":434,\"name\":\"Level_2_CannonTower\",\"x\":489},{\"width\":183,\"y\":903,\"height\":76,\"name\":\"Level_2_Light\",\"x\":186},{\"width\":195,\"y\":1,\"height\":434,\"name\":\"Level_3_CannonTower\",\"x\":292},{\"width\":179,\"y\":906,\"height\":76,\"name\":\"Level_3_Light\",\"x\":371},{\"frameX\":-29,\"frameHeight\":481,\"y\":470,\"frameY\":-14,\"frameWidth\":316,\"width\":231,\"height\":431,\"name\":\"Level_4_CannonTower\",\"x\":1},{\"width\":179,\"y\":906,\"height\":76,\"name\":\"Level_4_Light\",\"x\":552},{\"frameX\":-11,\"frameHeight\":481,\"y\":1,\"frameY\":-14,\"frameWidth\":316,\"width\":289,\"height\":467,\"name\":\"Level_5_CannonTower\",\"x\":1},{\"width\":179,\"y\":906,\"height\":76,\"name\":\"Level_5_Light\",\"x\":733},{\"width\":450,\"y\":470,\"height\":189,\"name\":\"BuildableUpgrading/Dirt_Site\",\"x\":234},{\"width\":56,\"y\":661,\"height\":75,\"name\":\"BuildableUpgrading/铲\",\"x\":234},{\"width\":89,\"y\":661,\"height\":80,\"name\":\"BuildableUpgrading/倒\",\"x\":371}],\"height\":984,\"name\":\"CannonTower\",\"imagePath\":\"CannonTower_tex.png\"}",
+  "texture": "fe04a001-fa5c-4bc5-9850-24aa177ef7b0",
+  "subMetas": {}
+}

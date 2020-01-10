@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "21f7ad54-4fa6-4c3f-9494-abc260f285d2",
+  "atlasJson": "{\"SubTexture\":[{\"frameY\":-7,\"y\":1,\"frameX\":-4,\"frameHeight\":77,\"height\":68,\"frameWidth\":77,\"width\":73,\"name\":\"Stone01\",\"x\":1},{\"frameY\":-8,\"y\":1,\"frameX\":-5,\"frameHeight\":31,\"height\":17,\"frameWidth\":29,\"width\":16,\"name\":\"huomiao01\",\"x\":76}],\"imagePath\":\"BuildaleDestroyed_tex.png\",\"width\":128,\"name\":\"BuildaleDestroyed\",\"height\":128}",
+  "texture": "49cd9cb2-38cf-4c23-8a80-3ac2f79892b7",
+  "subMetas": {}
+}

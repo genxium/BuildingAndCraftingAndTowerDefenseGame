@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "e5910e78-55b2-4ee3-9ae9-557a30d1a7e9",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":450,\"name\":\"Farmland/Dirt\",\"height\":225},{\"x\":1,\"y\":228,\"width\":85,\"name\":\"Farmland/Soil\",\"height\":59},{\"x\":453,\"y\":1,\"width\":15,\"name\":\"Farmland/Leaf_Stem\",\"height\":66},{\"x\":489,\"y\":18,\"width\":20,\"name\":\"Farmland/Leaf4\",\"height\":13},{\"x\":470,\"y\":1,\"width\":17,\"name\":\"Farmland/Leaf3\",\"height\":19},{\"x\":470,\"y\":22,\"width\":15,\"name\":\"Farmland/Leaf2\",\"height\":14},{\"x\":489,\"y\":1,\"width\":19,\"name\":\"Farmland/Leaf1\",\"height\":15}],\"imagePath\":\"Level_1_tex.png\",\"width\":512,\"name\":\"Level_1\",\"height\":512}",
+  "texture": "1467a240-80e6-4f91-897c-2bcfcb8622a4",
+  "subMetas": {}
+}

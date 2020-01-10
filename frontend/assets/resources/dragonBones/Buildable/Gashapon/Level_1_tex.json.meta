@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "c677ce02-b4b4-4ff5-999e-d81885e77956",
+  "atlasJson": "{\"imagePath\":\"Level_1_tex.png\",\"width\":128,\"name\":\"Level_1\",\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":111,\"name\":\"GashaponMachine\",\"height\":169},{\"x\":1,\"y\":172,\"width\":50,\"name\":\"Led_1\",\"height\":50}],\"height\":256}",
+  "texture": "9c7bf05d-c6fe-4bf5-96d5-896447254471",
+  "subMetas": {}
+}

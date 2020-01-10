@@ -1,0 +1,6 @@
+{
+  "ver": "1.0.0",
+  "uuid": "8ad44ff7-bcd0-4ecf-a0a3-e7310ab32a22",
+  "dragonBonesJson": "{\"frameRate\":24,\"name\":\"Star\",\"version\":\"5.5\",\"compatibleVersion\":\"5.5\",\"armature\":[{\"type\":\"Armature\",\"frameRate\":24,\"name\":\"Star\",\"aabb\":{\"x\":-87,\"y\":-87,\"width\":174,\"height\":174},\"bone\":[{\"name\":\"root\"}],\"slot\":[{\"displayIndex\":1,\"name\":\"Icon_Star_Grey1\",\"parent\":\"root\"}],\"skin\":[{\"slot\":[{\"name\":\"Icon_Star_Grey1\",\"display\":[{\"name\":\"Icon_Star_Grey\",\"transform\":{\"scX\":1.1,\"scY\":1.1}},{\"name\":\"Icon_Star\",\"transform\":{\"scX\":1.1,\"scY\":1.1}}]}]}],\"animation\":[{\"duration\":12,\"playTimes\":0,\"name\":\"LightOn\",\"slot\":[{\"name\":\"Icon_Star_Grey1\",\"displayFrame\":[{\"duration\":12},{\"duration\":0,\"value\":1}]}]},{\"duration\":0,\"playTimes\":0,\"name\":\"LightOff\",\"slot\":[{\"name\":\"Icon_Star_Grey1\",\"displayFrame\":[{\"duration\":0}]}]}],\"defaultActions\":[{\"gotoAndPlay\":\"LightOn\"}]}]}",
+  "subMetas": {}
+}

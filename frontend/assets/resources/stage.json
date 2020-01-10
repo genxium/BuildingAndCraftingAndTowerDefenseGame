@@ -1,0 +1,159 @@
+{
+  "stageId": 6,
+  "knapsack": [
+    {
+      "ingredientId": 1000,
+      "currentCount": 10
+    },
+    {
+      "ingredientId": 1001,
+      "currentCount": 8
+    },
+    {
+      "ingredientId": 1002,
+      "currentCount": 5
+    }
+  ],
+  "overideStageBuildableLevelBindingList": [
+
+  ],
+  "excludeStageBuildableLevelBindingList": [
+
+  ],
+  "playerRecipeList": [],
+  "syncData": {
+    "playerBuildableBindingList": [
+      {
+        "id": 4,
+        "topmostTileDiscretePositionX": 8,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 200
+        },
+        "currentLevel": 1,
+        "state": 1
+      },
+      {
+        "id": 5,
+        "topmostTileDiscretePositionX": 13,
+        "topmostTileDiscretePositionY": 4,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 3,
+        "state": 1
+      },
+      {
+        "id": 6,
+        "topmostTileDiscretePositionX": 13,
+        "topmostTileDiscretePositionY": 13,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 3,
+        "state": 1
+      },
+      {
+        "id": 7,
+        "topmostTileDiscretePositionX": 4,
+        "topmostTileDiscretePositionY": 13,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 3,
+        "state": 1
+      },
+      {
+        "id": 8,
+        "topmostTileDiscretePositionX": 4,
+        "topmostTileDiscretePositionY": 4,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 3,
+        "state": 1
+      },
+      {
+        "id": 9,
+        "topmostTileDiscretePositionX": 9,
+        "topmostTileDiscretePositionY": 2,
+        "buildable": {
+          "id": 101
+        },
+        "currentLevel": 4,
+        "state": 1
+      },
+      {
+        "id": 10,
+        "topmostTileDiscretePositionX": 4,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 101
+        },
+        "currentLevel": 4,
+        "state": 1
+      },
+      {
+        "id": 11,
+        "topmostTileDiscretePositionX": 9,
+        "topmostTileDiscretePositionY": 15,
+        "buildable": {
+          "id": 101
+        },
+        "currentLevel": 4,
+        "state": 1
+      },
+      {
+        "id": 12,
+        "topmostTileDiscretePositionX": 13,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 101
+        },
+        "currentLevel": 4,
+        "state": 1
+      },
+      {
+        "id": 13,
+        "topmostTileDiscretePositionX": 6,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 4,
+        "state": 1
+      },
+      {
+        "id": 14,
+        "topmostTileDiscretePositionX": 11,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 4,
+        "state": 1
+      }
+    ],
+    "wallet": {
+      "gold": 10000,
+      "goldLimit": 10000
+    },
+    "tutorialStage": 17
+  },
+  "goal": {
+    "passScore": 100,
+    "timeLimitSeconds": 75,
+    "questList": [
+      {
+        "resourceType": 102,
+        "resourceTargetId": 200,
+        "resourceTargetQuantity": 1,
+        "completedCountRequired": 1
+      }
+    ]
+  },
+  "diamondPrice": 0,
+  "starPrice": 0,
+  "attackWaveList": [],
+  "ticketPrice": 1
+}

@@ -1,0 +1,34 @@
+{
+  "ver": "2.3.3",
+  "uuid": "911446cd-232e-4d11-99c4-ac4d2bd1c97f",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "platformSettings": {},
+  "subMetas": {
+    "IceCreamVan": {
+      "ver": "1.0.4",
+      "uuid": "85dfc5a5-68f6-4985-8989-ef0d929cac89",
+      "rawTextureUuid": "911446cd-232e-4d11-99c4-ac4d2bd1c97f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 151,
+      "trimY": 115,
+      "width": 248,
+      "height": 320,
+      "rawWidth": 550,
+      "rawHeight": 550,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

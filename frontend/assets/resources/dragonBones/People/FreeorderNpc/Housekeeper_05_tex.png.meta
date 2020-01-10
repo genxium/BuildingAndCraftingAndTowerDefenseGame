@@ -1,0 +1,34 @@
+{
+  "ver": "2.3.3",
+  "uuid": "0779f6f9-e933-48a9-b94e-c34e4b1be074",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "platformSettings": {},
+  "subMetas": {
+    "Housekeeper_05_tex": {
+      "ver": "1.0.4",
+      "uuid": "b5e01826-cb7e-4743-8876-9671528fd910",
+      "rawTextureUuid": "0779f6f9-e933-48a9-b94e-c34e4b1be074",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -45.5,
+      "offsetY": 1,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 163,
+      "height": 252,
+      "rawWidth": 256,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

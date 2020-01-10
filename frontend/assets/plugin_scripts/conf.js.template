@@ -1,0 +1,38 @@
+"use strict";
+if (CC_DEBUG) {
+  var backendAddress = {
+    PROTOCOL: 'http',
+    HOST: 'localhost',
+    PORT: "9992",
+    WS_PATH_PREFIX: "/cuisineconn",
+  };
+
+  var wechatAddress = {
+    PROTOCOL: "http",
+    HOST: "119.29.236.44",
+    PORT: "8089",
+    PROXY: "",
+    APPID_LITERAL: "appid=wxa7a50eacff0a96d1",
+  };
+} else {
+  /* production */
+  var backendAddress = {
+    PROTOCOL: 'https',
+    HOST: 'mineralchem.lokcol.com',
+    PORT: "443",
+    WS_PATH_PREFIX: "/cuisineconn",
+  }
+
+  var wechatAddress = {
+    PROTOCOL: "https",
+    HOST: "open.weixin.qq.com",
+    PORT: "",
+    PROXY: "",
+    APPID_LITERAL: "appid=wxea836389a4ef0243",
+  };
+}
+
+window.language = "en";
+window.mainServerBackendAddress = backendAddress;
+window.backendAddress = backendAddress;
+window.wechatAddress = wechatAddress;

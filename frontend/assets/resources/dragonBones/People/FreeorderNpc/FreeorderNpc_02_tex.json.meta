@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "7d68dd59-7cc8-4032-83f3-b8a590b0d6c7",
+  "atlasJson": "{\"SubTexture\":[{\"x\":192,\"y\":60,\"width\":40,\"name\":\"shadow\",\"height\":19},{\"x\":240,\"y\":104,\"width\":14,\"name\":\"Leg_Bottom\",\"height\":22},{\"x\":217,\"y\":81,\"width\":21,\"name\":\"Hand_Bottom\",\"height\":28},{\"x\":240,\"y\":81,\"width\":15,\"name\":\"Leg_Front\",\"height\":21},{\"x\":157,\"y\":1,\"width\":34,\"name\":\"Body\",\"height\":57},{\"x\":157,\"y\":60,\"width\":33,\"name\":\"Body_1\",\"height\":56},{\"x\":192,\"y\":81,\"width\":23,\"name\":\"Hand_Top\",\"height\":32},{\"x\":57,\"y\":57,\"width\":49,\"name\":\"Head_1\",\"height\":50},{\"x\":108,\"y\":57,\"width\":47,\"name\":\"Head\",\"height\":50},{\"x\":1,\"y\":57,\"width\":54,\"name\":\"Hair_1\",\"height\":55},{\"x\":1,\"y\":1,\"width\":55,\"name\":\"Hair\",\"height\":54}],\"width\":256,\"name\":\"FreeorderNpc_02\",\"imagePath\":\"FreeorderNpc_02_tex.png\",\"height\":128}",
+  "texture": "2b09ba8c-98d4-480e-abad-61836c4a4685",
+  "subMetas": {}
+}

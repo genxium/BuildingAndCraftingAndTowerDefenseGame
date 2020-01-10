@@ -1,0 +1,21 @@
+CREATE TABLE `legal_currency_payment_record` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from_player_id` int(10) unsigned NOT NULL,
+  `to_player_id` int(10) unsigned NOT NULL,
+  `channel` int(3) unsigned NOT NULL,
+  `sku_id` varchar(128) NOT NULL,
+  `state` int(3) unsigned NOT NULL DEFAULT '0',
+  `ext_trx_id` varchar(255) DEFAULT NULL,
+  `prepay_id` varchar(255) DEFAULT NULL,
+  `legal_currency_type` int(3) unsigned NOT NULL DEFAULT '0',
+  `proposed_legal_currency_cost` int(10) unsigned NOT NULL DEFAULT '0',
+  `proposed_diamonds_to_purchase` int(10) unsigned NOT NULL DEFAULT '0',
+  `actual_legal_currency_cost` int(10) unsigned DEFAULT NULL,
+  `actual_diamonds_purchased` int(10) unsigned DEFAULT NULL,
+  `raw_receipt` text,
+  `created_at` bigint(20) unsigned NOT NULL,
+  `updated_at` bigint(20) unsigned NOT NULL,
+  `deleted_at` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hash_from_player_id_to_player_id` (`from_player_id`,`to_player_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

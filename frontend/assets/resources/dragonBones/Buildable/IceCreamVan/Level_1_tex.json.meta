@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b4426edc-92f3-4870-8ff3-39e66e29b3bf",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":140,\"name\":\"VendingMachine\",\"height\":181},{\"x\":1,\"y\":184,\"width\":50,\"name\":\"Led_1\",\"height\":50}],\"imagePath\":\"Level_1_tex.png\",\"width\":256,\"name\":\"Level_1\",\"height\":256}",
+  "texture": "72a6e548-1b76-47ea-8d9a-000e33117771",
+  "subMetas": {}
+}

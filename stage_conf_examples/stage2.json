@@ -1,0 +1,83 @@
+{
+  "stageId": 2,
+  "knapsack": [
+    {
+      "ingredientId": 1000,
+      "currentCount": 15
+    },
+    {
+      "ingredientId": 1001,
+      "currentCount": 10
+    },
+    {
+      "ingredientId": 1002,
+      "currentCount": 5
+    }
+  ],
+  "overideStageBuildableLevelBindingList": [
+
+  ],
+  "excludeStageBuildableLevelBindingList": [
+
+  ],
+  "playerRecipeList": [],
+  "syncData": {
+    "playerBuildableBindingList": [
+      {
+        "id": 4,
+        "topmostTileDiscretePositionX": 8,
+        "topmostTileDiscretePositionY": 6,
+        "buildable": {
+          "id": 200
+        },
+        "currentLevel": 1,
+        "state": 1
+      },
+      {
+        "id": 7,
+        "topmostTileDiscretePositionX": 9,
+        "topmostTileDiscretePositionY": 10,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 1,
+        "state": 1
+      }
+    ],
+    "wallet": {
+      "gold": 10000,
+      "goldLimit": 10000
+    },
+    "tutorialStage": 17
+  },
+  "goal": {
+    "passScore": 100,
+    "timeLimitSeconds": 60,
+    "questList": [
+      {
+        "resourceType": 102,
+        "resourceTargetId": 200,
+        "resourceTargetQuantity": 1,
+        "completedCountRequired": 1
+      }
+    ]
+  },
+  "diamondPrice": 0,
+  "starPrice": 0,
+  "attackWaveList": [],
+  "guardSoldierList": [
+    {
+      "species": "ELFWARRIOR",
+      "tileDiscretePositionX": 9,
+      "tileDiscretePositionY": 14,
+      "teamId": 1
+    },
+    {
+      "species": "ELFWARRIOR",
+      "tileDiscretePositionX": 11,
+      "tileDiscretePositionY": 14,
+      "teamId": 1
+    }
+  ],
+  "ticketPrice": 1
+}

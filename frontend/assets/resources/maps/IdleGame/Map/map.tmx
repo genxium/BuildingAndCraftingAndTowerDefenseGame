@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="20" height="20" tilewidth="256" tileheight="128" infinite="0" nextlayerid="22" nextobjectid="129">
+ <tileset firstgid="1" source="Tile_W256_H128_S02.tsx"/>
+ <tileset firstgid="21" source="Tile_W256_H256_S01.tsx"/>
+ <tileset firstgid="27" source="Tile_W256_H128_S01.tsx"/>
+ <objectgroup id="1" name="AttackingNpc">
+  <properties>
+   <property name="type" value="attacking_npc"/>
+  </properties>
+  <object id="123" x="1996.97" y="125.212">
+   <point/>
+  </object>
+  <object id="117" x="84" y="1276">
+   <point/>
+  </object>
+  <object id="119" x="1996" y="2516">
+   <point/>
+  </object>
+  <object id="121" x="2468" y="1324">
+   <point/>
+  </object>
+  <object id="125" x="556" y="2436">
+   <point/>
+  </object>
+  <object id="124" x="544" y="96">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="BuildableInitialPosition">
+  <properties>
+   <property name="type" value="buildable_position"/>
+  </properties>
+  <object id="126" x="965.455" y="778.061">
+   <properties>
+    <property name="buildableId" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="127" x="1448.24" y="660.606">
+   <properties>
+    <property name="buildableId" type="int" value="6"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="128" x="1404.85" y="243.636">
+   <properties>
+    <property name="buildableId" type="int" value="3"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="16" name="floor" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYIJiLiBmBmIOJDFcmBi1o+aNmkdILScSZoGqYUcTx4ZxqWUe5JgHCbNCxdjQxLFhXGoHe/yOmje8zQMAabkGNw==
+  </data>
+ </layer>
+ <layer id="17" name="BuildableArea_1" width="20" height="20" visible="0">
+  <properties>
+   <property name="allowed_buildable_type" value="1,2,3,4,5,6,7,8,9"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJyTYWBgkIFiZCBDABOjdtS8UfMIqR0FlIHBHr+j5g1v8wDLtBiB
+  </data>
+ </layer>
+ <layer id="18" name="Lawn" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRQC0gN9AOoCMAACHoAB8=
+  </data>
+ </layer>
+ <layer id="20" name="StatefulBuildableInstanceHighlighter" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMFiBzEA7AA8AABdQAB0=
+  </data>
+ </layer>
+</map>

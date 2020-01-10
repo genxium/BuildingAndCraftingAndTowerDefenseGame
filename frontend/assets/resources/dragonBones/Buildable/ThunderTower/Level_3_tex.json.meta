@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "ec40a9b5-e8df-42ba-b240-d3b4a03bacb6",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":273,\"name\":\"Body\",\"height\":431},{\"x\":1,\"y\":434,\"width\":46,\"name\":\"Shine\",\"height\":45}],\"width\":512,\"name\":\"Level_3\",\"imagePath\":\"Level_3_tex.png\",\"height\":512}",
+  "texture": "9d5f8951-110e-43ae-ad5b-0bed63439ac8",
+  "subMetas": {}
+}

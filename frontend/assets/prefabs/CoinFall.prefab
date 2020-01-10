@@ -1,0 +1,110 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CoinFall",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [],
+    "_active": true,
+    "_level": 1,
+    "_components": [
+      {
+        "__id__": 2
+      }
+    ],
+    "_prefab": {
+      "__id__": 3
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "groupIndex": 0,
+    "_id": "",
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "__type__": "e392d8v4ahDO5Nq86Aed89q",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "hasTriggerFlying": false,
+    "coinPrefab": {
+      "__uuid__": "76544431-f659-4427-8ea7-95dd1932423e"
+    },
+    "batchCoinCount": 5,
+    "sprintDurationMillis": 1500,
+    "flyAndFadeDurationMillis": 1000,
+    "sprintIntervalMinMillis": 100,
+    "sprintIntervalMaxMillis": 200,
+    "minSpawnXMagnitude": 0,
+    "maxSpawnXMagnitude": 10,
+    "minSpawnYMagnitude": 0,
+    "maxSpawnYMagnitude": 10,
+    "coinWillHaltAfterFallen": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7ed65dd6-1d53-4e19-9485-c0538e5c81d5"
+    },
+    "fileId": "133gdlGaNOqbuSgufAtiZ9",
+    "sync": false
+  }
+]

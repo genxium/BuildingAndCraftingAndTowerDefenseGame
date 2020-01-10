@@ -1,0 +1,25 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "UpAndSink",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8333333333333334,
+  "sample": 6,
+  "speed": 1,
+  "wrapMode": "22",
+  "curveData": {
+    "props": {
+      "anchorY": [
+        {
+          "frame": 0,
+          "value": 0.5
+        },
+        {
+          "frame": 0.8333333333333334,
+          "value": 0.2
+        }
+      ]
+    }
+  },
+  "events": []
+}

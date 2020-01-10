@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "d3eabd1b-474a-45f9-a8d4-cb74b126d301",
+  "atlasJson": "{\"SubTexture\":[{\"frameY\":-3,\"y\":129,\"frameWidth\":126,\"height\":121,\"frameHeight\":126,\"width\":121,\"name\":\"Happy\",\"frameX\":-3,\"x\":125},{\"x\":1,\"y\":1,\"width\":126,\"name\":\"Angry\",\"height\":126},{\"frameY\":-2,\"y\":129,\"frameWidth\":126,\"height\":122,\"frameHeight\":126,\"width\":122,\"name\":\"Disappointed\",\"frameX\":-2,\"x\":1}],\"width\":256,\"name\":\"Mood\",\"imagePath\":\"Mood_tex.png\",\"height\":256}",
+  "texture": "4cd5038d-4d53-4d92-8fcc-63137af8511c",
+  "subMetas": {}
+}

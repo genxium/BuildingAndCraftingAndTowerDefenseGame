@@ -1,0 +1,6 @@
+{
+  "apiProtocol": "https",
+  "apiGateway": "api.weixin.qq.com",
+  "appId": "wxf497c910a2a25edc",
+  "appSecret": "secret1"
+}

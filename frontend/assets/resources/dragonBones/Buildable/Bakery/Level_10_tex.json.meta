@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "ffa8199b-1b1a-4b1e-ade1-a42ed135b44b",
+  "atlasJson": "{\"SubTexture\":[{\"x\":434,\"y\":1,\"width\":46,\"name\":\"Chimney\",\"height\":38},{\"x\":1,\"y\":1,\"width\":305,\"name\":\"Body\",\"height\":285},{\"x\":374,\"y\":1,\"width\":58,\"name\":\"Logo\",\"height\":48},{\"frameY\":0,\"y\":41,\"frameWidth\":35,\"height\":18,\"frameHeight\":18,\"width\":32,\"name\":\"Bread1\",\"frameX\":0,\"x\":470},{\"x\":434,\"y\":41,\"width\":34,\"name\":\"Icon\",\"height\":39},{\"frameY\":0,\"y\":1,\"frameWidth\":65,\"height\":69,\"frameHeight\":70,\"width\":64,\"name\":\"heat\",\"frameX\":-1,\"x\":308}],\"width\":512,\"name\":\"Level_10\",\"imagePath\":\"Level_10_tex.png\",\"height\":512}",
+  "texture": "186d3e72-20d7-4ed5-823f-bf1d2ca384c2",
+  "subMetas": {}
+}

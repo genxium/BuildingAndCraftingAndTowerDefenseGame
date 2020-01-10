@@ -1,0 +1,135 @@
+{
+  "stageId": 8,
+  "knapsack": [
+    {
+      "ingredientId": 1000,
+      "currentCount": 15
+    },
+    {
+      "ingredientId": 1001,
+      "currentCount": 10
+    },
+    {
+      "ingredientId": 1002,
+      "currentCount": 5
+    }
+  ],
+  "overideStageBuildableLevelBindingList": [
+
+  ],
+  "excludeStageBuildableLevelBindingList": [
+
+  ],
+  "playerRecipeList": [],
+  "syncData": {
+    "playerBuildableBindingList": [
+      {
+        "id": 4,
+        "topmostTileDiscretePositionX": 8,
+        "topmostTileDiscretePositionY": 8,
+        "buildable": {
+          "id": 200
+        },
+        "currentLevel": 1,
+        "state": 1
+      },
+      {
+        "id": 5,
+        "topmostTileDiscretePositionX": 6,
+        "topmostTileDiscretePositionY": 10,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 1,
+        "state": 1
+      },
+      {
+        "id": 6,
+        "topmostTileDiscretePositionX": 11,
+        "topmostTileDiscretePositionY": 10,
+        "buildable": {
+          "id": 100
+        },
+        "currentLevel": 1,
+        "state": 1
+      }
+    ],
+    "wallet": {
+      "gold": 10000,
+      "goldLimit": 10000
+    },
+    "tutorialStage": 17
+  },
+  "goal": {
+    "passScore": 100,
+    "timeLimitSeconds": 60,
+    "questList": [
+      {
+        "resourceType": 102,
+        "resourceTargetId": 200,
+        "resourceTargetQuantity": 1,
+        "completedCountRequired": 1
+      }
+    ]
+  },
+  "guardSoldierList": [
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 8,
+      "tileDiscretePositionY": 12,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 9,
+      "tileDiscretePositionY": 12,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 10,
+      "tileDiscretePositionY": 12,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 6,
+      "tileDiscretePositionY": 12,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 7,
+      "tileDiscretePositionY": 9,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 7,
+      "tileDiscretePositionY": 8,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 11,
+      "tileDiscretePositionY": 8,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 11,
+      "tileDiscretePositionY": 9,
+      "teamId": 1
+    },
+    {
+      "species": "ORCWARRIOR",
+      "tileDiscretePositionX": 12,
+      "tileDiscretePositionY": 12,
+      "teamId": 1
+    }
+  ],
+  "diamondPrice": 0,
+  "starPrice": 0,
+  "attackWaveList": [],
+  "ticketPrice": 1
+}

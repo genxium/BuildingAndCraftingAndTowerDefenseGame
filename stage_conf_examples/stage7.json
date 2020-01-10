@@ -1,0 +1,129 @@
+{
+  "stageId": 7,
+  "knapsack": [
+    {
+      "ingredientId": 1000,
+      "currentCount": 15
+    },
+    {
+      "ingredientId": 1002,
+      "currentCount": 5
+    }
+  ],
+  "overideStageBuildableLevelBindingList": [
+
+  ],
+  "excludeStageBuildableLevelBindingList": [
+
+  ],
+  "playerRecipeList": [],
+  "syncData": {
+    "playerBuildableBindingList": [
+      {
+        "id": 1,
+        "topmostTileDiscretePositionX": 2,
+        "topmostTileDiscretePositionY": 7,
+        "buildable": {
+          "id": 200
+        },
+        "currentLevel": 1,
+        "state": 1
+      }
+    ],
+    "wallet": {
+      "gold": 10000,
+      "goldLimit": 10000
+    },
+    "tutorialStage": 17
+  },
+  "goal": {
+    "passScore": 100,
+    "timeLimitSeconds": 60,
+    "questList": [
+      {
+        "resourceType": 102,
+        "resourceTargetId": 200,
+        "resourceTargetQuantity": 1,
+        "completedCountRequired": 1
+      }
+    ]
+  },
+  "guardSoldierList": [
+    {
+      "species": "SMALLSHEEP",
+      "tileDiscretePositionX": 11,
+      "tileDiscretePositionY": 11,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 10,
+      "tileDiscretePositionY": 10,
+      "teamId": 1
+    },
+    {
+      "species": "SMALLSHEEP",
+      "tileDiscretePositionX": 5,
+      "tileDiscretePositionY": 5,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 8,
+      "tileDiscretePositionY": 7,
+      "teamId": 1
+    },
+    {
+      "species": "SMALLSHEEP",
+      "tileDiscretePositionX": 7,
+      "tileDiscretePositionY": 6,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 5,
+      "tileDiscretePositionY": 10,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 5,
+      "tileDiscretePositionY": 8,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 5,
+      "tileDiscretePositionY": 6,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 3,
+      "tileDiscretePositionY": 11,
+      "teamId": 1
+    },
+    {
+      "species": "SMALLSHEEP",
+      "tileDiscretePositionX": 4,
+      "tileDiscretePositionY": 11,
+      "teamId": 1
+    },
+    {
+      "species": "SMALLSHEEP",
+      "tileDiscretePositionX": 3,
+      "tileDiscretePositionY": 6,
+      "teamId": 1
+    },
+    {
+      "species": "BIGSHEEP",
+      "tileDiscretePositionX": 4,
+      "tileDiscretePositionY": 6,
+      "teamId": 1
+    }
+  ],
+  "diamondPrice": 0,
+  "starPrice": 0,
+  "attackWaveList": [],
+  "ticketPrice": 1
+}

@@ -1,0 +1,103 @@
+{
+	"services": [
+		{
+			"service_id": "235",
+			"service_name": "Cocos Analytics",
+			"service_icon": "https://account.cocos.com/client/3f8f31ccf66995e183044f167c092395.png",
+			"service_desc": "Provides core and basic data，simple and easy to use standardized interface features，best-accurated data",
+			"service_title": "Accurate understanding of the game's new，active，retained，paid and other data",
+			"service_guide_url": "https://n-analytics.cocos.com/docs/",
+			"service_sample_url": "https://github.com/cocos-creator/tutorial-dark-slash/tree/analytics",
+			"service_dev_url": "http://analytics.cocos.com/realtime/jump_to/<app_id>",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.0_2.1.0.zip",
+			"package_version_desc": "",
+			"service_component_name": "service-analytics",
+			"package_versions": [
+				"1.2.1_2.1.0",
+				"1.2.0_2.1.0",
+				"1.1.7_2.0.3",
+				"1.1.6_2.0.1_2.0.2",
+				"1.1.5_2.0.1",
+				"1.1.4_2.0.1",
+				"1.1.3_2.0.1",
+				"1.1.2_2.0.0",
+				"1.0.0_1.0.5"
+			],
+			"build_platform": [],
+			"require_verify": 0,
+			"service_price": "",
+			"service_protocol": "Game for the first time to open the service，the Cocos after notification service for game on service and initialization parameters，service party may according to need to get your Cocos account information，such as account basic information，game basic information，account balance，click on the confirm open button that is seen as you agree to the service to access your account information，See <a href='http://auth.cocos.com/CocosServiceAgreement.html'>Cocos user service agreement </a> and <a href='http://auth.cocos.com/PrivacyPolicy.html'>Cocos privacy policy </a>"
+		},
+		{
+			"service_id": "241",
+			"service_name": "Matchvs",
+			"service_icon": "https://account.cocos.com/client/14406719a07eb3d714d36e5edc6e06fa.png",
+			"service_desc": "The SDK access to quickly achieve networking functions，frame synchronization，domestic and foreign multi-node，server independent deployment，game server custom logic",
+			"service_title": "Professional and mature mobile game networking and service solutions",
+			"service_guide_url": "http://doc.matchvs.com/QuickStart/QuickStart-CocosCreator",
+			"service_sample_url": "http://www.matchvs.com/serviceCourse",
+			"service_dev_url": "http://www.matchvs.com/cocosLogin",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-matchvs/1.0.10_3.7.9.10.zip",
+			"package_version_desc": "",
+			"service_component_name": "service-matchvs",
+			"package_versions": [
+				"1.0.9_3.7.9.9",
+				"1.0.7_3.7.9.6",
+				"1.0.6_3.7.9.2",
+				"1.0.5_3.7.7.3",
+				"1.0.3_3.7.6.4",
+				"1.0.10_3.7.9.10"
+			],
+			"build_platform": [],
+			"require_verify": 0,
+			"service_price": "The service according to usage billing，<a href='https://www.matchvs.com/price'> <font color='#DDDDDD'> billing rules </font> </a>，the fees incurred by the third party from your <a href='https://account.cocos.com/#/finance/finance_list'> <font color='#DDDDDD'> Cocos balances </font></a>.",
+			"service_protocol": "Game for the first time to open the service，service party may according to need to get your Cocos account information，click on the confirm open button that is seen as you agree to the service to access your account information，See <a href='http://auth.cocos.com/CocosServiceAgreement.html'>Cocos user service agreement </a> and <a href='http://auth.cocos.com/PrivacyPolicy.html'>Cocos privacy policy </a>"
+		},
+		{
+			"service_id": "242",
+			"service_name": "Agora Voice",
+			"service_icon": "https://account.cocos.com/uploads/client_icon/2019-07-16/273952d155b4cdb72d2b1bc61de91ade.png",
+			"service_desc": "Build the future of communications with the world’s leading voice、video、and interactive broadcasting platform. Agora delivers easy to embed Real-Time Engagement APIs which includes all the development tools and cloud infrastructure needed for mobile、web、and desktop applications.\n",
+			"service_title": "SDKBuilt-in real-time Audio SDK",
+			"service_guide_url": "https://docs.agora.io/en/Interactive Gaming/game_c?platform=Cocos Creator",
+			"service_sample_url": "https://github.com/AgoraIO/Voice-Call-for-Mobile-Gaming/tree/master/Basic-Voice-Call-for-Gaming/Hello-CocosCreator-Voice-Agora",
+			"service_dev_url": "https://sso.agora.io/api/oauth/cocos/login",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-agora/1.0.2_2.2.3.20_2.5.2.zip",
+			"package_version_desc": "",
+			"service_component_name": "service-agora",
+			"package_versions": [
+				"1.0.2_2.2.3.20_2.5.2",
+				"1.0.1_2.2.3.20_2.5.2"
+			],
+			"build_platform": [],
+			"require_verify": 1,
+			"service_price": "The service according to usage billing，<a href='https://www.agora.io/en/price/'> <font color='#DDDDDD'> billing rules </font> </a>，the fees incurred by the third party from your <a href='https://account.cocos.com/#/finance/finance_list'> <font color='#DDDDDD'> Cocos balances </font></a>.",
+			"service_protocol": "Game for the first time to open the service，service party may according to need to get your Cocos account information，click on the confirm open button that is seen as you agree to the service to access your account information，See <a href='http://auth.cocos.com/CocosServiceAgreement.html'>Cocos user service agreement </a> and <a href='http://auth.cocos.com/PrivacyPolicy.html'>Cocos privacy policy</a>"
+		}
+	],
+	"game": {
+		"name": "UNKNOW GAME",
+		"appid": "UNKNOW"
+	}
+}

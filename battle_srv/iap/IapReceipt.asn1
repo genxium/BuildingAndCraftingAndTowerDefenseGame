@@ -1,0 +1,13 @@
+IAPModule DEFINITIONS ::=
+BEGIN
+ 
+InAppAttribute ::= SEQUENCE {
+    type                   INTEGER,
+    version                INTEGER,
+    value                  OCTET STRING
+}
+ 
+InAppReceipt ::= SET OF InAppAttribute
+
+END
+

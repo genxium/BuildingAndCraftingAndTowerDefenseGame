@@ -1,0 +1,9 @@
+{
+  "wechatgame": {
+    "appid": "tt266c50d1b94607ef",
+    "orientation": "portrait",
+    "separate_engine": false,
+    "REMOTE_SERVER_ROOT": "https://cdn-testeabc.weazm.com/wechat-game/",
+    "subContext": ""
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "announcement": "{\"zh\":\"\u003c img src='22'/\u003e \u003ccolor=#161616\u003e欢迎来到\u003cb\u003e\u003csize=60\u003eFoodieClans。\u003c/size\u003e\u003c/color\u003e\u003c/b\u003e\\n\\n\u003c img src='56'/\u003e \u003csize=45\u003e这是一款\\n\u003ccolor=#3B74A5\u003e\u003cb\u003e佛系美食模拟经营游戏+\\nCombo Game + \\n派兵打人\u003c/color\u003e\u003c/b\u003e\\n的大型小游戏。\\n\\n\u003c img src='16'/\u003e 我们的客服微信号是 \u003ccolor=#3B74A5\u003e\u003cb\u003e\u003csize=55\u003e\u003cu\u003eseaguts\u003c/color\u003e\u003c/b\u003e\u003c/size\u003e\u003c/u\u003e ，\\n\u003ccolor=#161616\u003e无论是吐槽还是吐槽，请大胆向我们砸来，\\n我们都会虚心接受。祝用餐愉快~~\u003c/color\u003e\u003c/size\u003e\",\"en\":\"\u003c img src='22'/\u003e \u003ccolor=#161616\u003e欢迎来到\u003cb\u003e\u003csize=60\u003eFoodieClans。\u003c/size\u003e\u003c/color\u003e\u003c/b\u003e\\n\\n\u003c img src='56'/\u003e \u003csize=45\u003e这是一款\\n\u003ccolor=#3B74A5\u003e\u003cb\u003e佛系美食模拟经营游戏+\\nCombo Game + \\n派兵打人\u003c/color\u003e\u003c/b\u003e\\n的大型小游戏。\\n\\n\u003c img src='16'/\u003e 我们的客服微信号是 \u003ccolor=#3B74A5\u003e\u003cb\u003e\u003csize=55\u003e\u003cu\u003eseaguts\u003c/color\u003e\u003c/b\u003e\u003c/size\u003e\u003c/u\u003e ，\\n\u003ccolor=#161616\u003e无论是吐槽还是吐槽，请大胆向我们砸来，\\n我们都会虚心接受。祝用餐愉快~~\u003c/color\u003e\u003c/size\u003e\"}",
+	"anonymousPlayerEnabled": true,
+  "anonymousPlayerEndpoint": {
+   "PROTOCOL": "http",
+   "HOST": "localhost",
+   "PORT": "9992",
+   "WS_PATH_PREFIX": "/cuisineconn"
+  },
+  "exchangeRateOfGoldToDiamond": 100,
+  "exchangeRateOfTimeToDiamond": 60000,
+  "apiCallLimit": {
+    "/api/v1/Player/MySQL/SyncData/Upsync": 20000
+  },
+  "dailyCheckInRewardList":{
+    "1": [{
+      "resourceType": 0,
+      "resourceTargetId": null,
+      "resourceTargetQuantity": 100
+    }]
+  },
+  "emailCaptchaSubject": "Foodie验证码",
+  "emailCaptchaTemplate": "你好，你在FoodieClans的登录验证码是${captcha}，请确保在安全情况下使用\\r\\n",
+  "diamondAutoFillUpperLimit": 30
+}

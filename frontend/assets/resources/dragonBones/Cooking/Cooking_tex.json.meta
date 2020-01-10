@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b9bf380b-c6aa-4f2b-9597-a3971841d824",
+  "atlasJson": "{\"SubTexture\":[{\"x\":97,\"y\":1,\"width\":100,\"name\":\"Body\",\"height\":60},{\"frameY\":0,\"y\":63,\"frameWidth\":78,\"height\":26,\"frameHeight\":27,\"width\":78,\"name\":\"Lid\",\"frameX\":0,\"x\":97},{\"frameY\":0,\"y\":1,\"frameWidth\":96,\"height\":102,\"frameHeight\":103,\"width\":94,\"name\":\"heat\",\"frameX\":-1,\"x\":1}],\"width\":256,\"name\":\"Cooking\",\"imagePath\":\"Cooking_tex.png\",\"height\":128}",
+  "texture": "a9f24ae1-5788-47c9-8c8e-7de4a5391fdb",
+  "subMetas": {}
+}

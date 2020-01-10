@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "6e3a4f07-a0a6-4422-8268-1854bbdeb392",
+  "atlasJson": "{\"SubTexture\":[{\"x\":72,\"y\":150,\"width\":52,\"name\":\"shadow\",\"height\":24},{\"x\":74,\"y\":1,\"width\":27,\"name\":\"Hand_Bottom\",\"height\":36},{\"x\":148,\"y\":150,\"width\":18,\"name\":\"Leg_Bottom\",\"height\":28},{\"x\":126,\"y\":150,\"width\":20,\"name\":\"Leg_Front\",\"height\":27},{\"x\":72,\"y\":90,\"width\":46,\"name\":\"Body\",\"height\":58},{\"x\":120,\"y\":90,\"width\":45,\"name\":\"Body_1\",\"height\":58},{\"x\":167,\"y\":1,\"width\":29,\"name\":\"Hand_Top\",\"height\":41},{\"x\":1,\"y\":181,\"width\":63,\"name\":\"Head_1\",\"height\":64},{\"x\":66,\"y\":181,\"width\":60,\"name\":\"Head_2\",\"height\":64},{\"x\":128,\"y\":181,\"width\":60,\"name\":\"Head\",\"height\":64},{\"x\":1,\"y\":1,\"width\":71,\"name\":\"Hair\",\"height\":87},{\"x\":1,\"y\":90,\"width\":69,\"name\":\"Hair_1\",\"height\":89},{\"x\":168,\"y\":150,\"width\":17,\"name\":\"Z\",\"height\":22}],\"imagePath\":\"Housekeeper_04_tex.png\",\"width\":256,\"name\":\"Housekeeper_04\",\"height\":256}",
+  "texture": "27fa14f0-9e83-4d37-9dd9-d1ba5fee3c33",
+  "subMetas": {}
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="isometric" renderorder="right-down" width="20" height="20" tilewidth="256" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="145">
+ <properties>
+  <property name="allowed_buildable_type" value="100"/>
+ </properties>
+ <tileset firstgid="1" source="Tile_W256_H128_S02.tsx"/>
+ <tileset firstgid="21" source="Tile_W256_H256_S01.tsx"/>
+ <tileset firstgid="27" source="Tile_W256_H128_S01.tsx"/>
+ <objectgroup id="1" name="EscapingTarget">
+  <properties>
+   <property name="type" value="ally_escaping_target"/>
+  </properties>
+  <object id="121" x="1209.09" y="1202.31">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="InitialCameraPos">
+  <object id="118" x="1118.85" y="1189.27">
+   <properties>
+    <property name="type" value="initial_camera_pos"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="2" name="floor" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy1lG0LgCAMhIe9R1b//9emUGDHta2wDwfT6YHP3HoRWSqpSxqTQtKWNBGtRr48Mxd+OW6IrDyeKeOevCGe+f3hfZrfFXs1O/00VsjL46exYkzLdVT8kCfjhetA/C72Ue68cB/9duF/52s9glGPFe7jPvptRj0GqGvr4Fe7vixmvcB6xutXqz+QlzVfGM+/5ssTM22+MJ5vmVk8GbOvyjwPxhYKsQ==
+  </data>
+ </layer>
+ <layer id="9" name="soldier_droparea" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwxnIQjG1zBk1jzLzRsEoGE4AAC+gAkU=
+  </data>
+ </layer>
+ <layer id="10" name="draft" width="20" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxTYqA+UKKzmbJQTC0zyTUPZiYhvaSYL8tAODzJcS+944hYIIuGpZEwuhy55ilRYB46QHYftQEt4ohUQEzYkBMf1DKPFvppbd5wAgAnbQZ7
+  </data>
+ </layer>
+ <layer id="3" name="StatefulBuildableInstanceHighlighter" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMBKAMpXNAwARMAAk
+  </data>
+ </layer>
+ <layer id="4" name="Trees" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg6QAwLJiSPrgZdPTluGA7m4QorbGFKrHnEuGe4hB+1zaN2+FE7fokFQ908apYvIwEAALEWBa0=
+  </data>
+ </layer>
+ <objectgroup id="5" name="BarrierAndShelter">
+  <properties>
+   <property name="type" value="barrier_and_shelter"/>
+  </properties>
+  <object id="133" x="512" y="224">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="-48.4848,-12.1212 -189.152,-28.7879 -190.485,1627.58 -58.9091,1636.85"/>
+  </object>
+  <object id="134" x="672" y="608">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="153.03,95.4545 155.508,351.625 930.788,354.788 938.917,94.897"/>
+  </object>
+  <object id="135" x="698" y="1342">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="115.152,139.394 128.157,402.485 917.697,385.818 907.721,122.685"/>
+  </object>
+  <object id="136" x="2227.2" y="192">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="0,0 -126.776,-18.1818 -125.418,1933.19 -1.74545,1931.21"/>
+  </object>
+  <object id="137" x="256" y="128">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="327.273,72.7273 331.818,330.242 806.061,342.545 821.03,71.5758"/>
+  </object>
+  <object id="138" x="288" y="1888">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="45.4545,87.8788 35.0303,230.424 792.424,244.424 787.697,124.788"/>
+  </object>
+  <object id="139" x="1312" y="1920">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="143.939,43.9394 136.545,206 690.909,197.091 681.455,48.4848"/>
+  </object>
+  <object id="140" x="1312" y="160">
+   <properties>
+    <property name="boundary_type" value="barrier"/>
+   </properties>
+   <polyline points="140.909,34.8485 138.061,265.091 668.364,274.182 662.121,16.6667"/>
+  </object>
+  <object id="141" x="2560" y="768">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="0,0 -256,0 -256,640 0,640"/>
+  </object>
+  <object id="142" x="256" y="768">
+   <properties>
+    <property name="boundary_type" value="soldier_droppable"/>
+   </properties>
+   <polyline points="0,0 -256,0 -256,640 0,640"/>
+  </object>
+  <object id="143" x="1473.03" y="1369.39">
+   <polyline points="0,0 157.576,6.06061 146.97,-43.9394 6.06061,-42.4242"/>
+  </object>
+  <object id="144" x="829.091" y="1352.73">
+   <polyline points="0,0 116.667,10.6061 109.091,-30.303 -4.54545,-31.8182"/>
+  </object>
+ </objectgroup>
+ <layer id="6" name="BuildableArea_2" width="20" height="20" visible="0">
+  <properties>
+   <property name="allowed_buildable_type" value="100,101,102"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtACyUEys+Kh5o+aNRPNw4YE2bxQQBwB8fgZZ
+  </data>
+ </layer>
+ <layer id="7" name="BuildableArea_1" width="20" height="20" visible="0">
+  <properties>
+   <property name="allowed_buildable_type" value="1,2,3,4,5,6"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4B6QAkNj5o3at4oGL4AABiVA7k=
+  </data>
+ </layer>
+</map>

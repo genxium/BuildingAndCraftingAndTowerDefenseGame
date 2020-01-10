@@ -1,0 +1,290 @@
+{
+  "stageBuildableLevelBindingList": [
+    {
+      "buildableId": 200,
+      "level": 1,
+      "buildingOrUpgradingDuration": 0,
+      "buildingOrUpgradingRequiredGold": 0,
+      "buildingOrUpgradingRequiredResidentsCount": 1,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 100,
+      "baseRiflemanProductionDuration": 1000,
+      "baseHp": 1500,
+      "baseDamage": 0,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 1
+        }
+      ],
+      "goldLimitAddition": 10000
+    },
+    {
+      "buildableId": 101,
+      "level": 1,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 2000,
+      "baseDamage": 0,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 101,
+      "level": 2,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 3000,
+      "baseDamage": 0,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 5
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 101,
+      "level": 3,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 4000,
+      "baseDamage": 0,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 101,
+      "level": 4,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 5000,
+      "baseDamage": 0,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 102,
+      "level": 1,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 800,
+      "baseDamage": 30,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 103,
+      "level": 1,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 700,
+      "baseDamage": 120,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 103,
+      "level": 2,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 850,
+      "baseDamage": 180,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 103,
+      "level": 3,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 1000,
+      "baseDamage": 220,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 100,
+      "level": 1,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 1000,
+      "baseDamage": 7,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 100,
+      "level": 2,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 1200,
+      "baseDamage": 7,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 100,
+      "level": 3,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 1500,
+      "baseDamage": 10,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    },
+    {
+      "buildableId": 100,
+      "level": 4,
+      "buildingOrUpgradingDuration": 5,
+      "buildingOrUpgradingRequiredGold": 200,
+      "buildingOrUpgradingRequiredResidentsCount": 0,
+      "baseGoldProductionRate": 0,
+      "baseFoodProductionRate": 0,
+      "baseRiflemanProductionRequiredGold": 0,
+      "baseRiflemanProductionDuration": 0,
+      "baseHp": 1800,
+      "baseDamage": 12,
+      "dependency": [
+        {
+          "requiredBuildableId": 200,
+          "requiredBuildableCount": 0,
+          "requiredMinimumLevel": 1,
+          "targetBuildableMaxCount": 6
+        }
+      ],
+      "goldLimitAddition": 0
+    }
+  ]
+}

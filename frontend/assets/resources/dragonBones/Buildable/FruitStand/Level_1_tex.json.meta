@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b281ee19-65c6-453d-923b-6257a899f4da",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":163,\"name\":\"Stall\",\"height\":169},{\"x\":1,\"y\":172,\"width\":50,\"name\":\"Led_1\",\"height\":50}],\"imagePath\":\"Level_1_tex.png\",\"width\":256,\"name\":\"Level_1\",\"height\":256}",
+  "texture": "34ce8dd3-d77e-432b-b4ba-2ac14ec1e261",
+  "subMetas": {}
+}

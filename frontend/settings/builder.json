@@ -1,0 +1,66 @@
+{
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "",
+    "host": "",
+    "packageName": "com.lokcol.foodieclans",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
+  "appBundle": false,
+  "baidugame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "testappid",
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "encryptJs": false,
+  "fb-instant-games": {},
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": false,
+  "md5Cache": true,
+  "mergeStartScene": true,
+  "optimizeHotUpdate": true,
+  "orientation": {
+    "landscapeLeft": false,
+    "landscapeRight": false,
+    "portrait": true,
+    "upsideDown": false
+  },
+  "packageName": "com.lokcol.foodieclans",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait"
+  },
+  "title": "FoodieClans",
+  "webOrientation": "portrait",
+  "wechatgame": {
+    "appid": "tt266c50d1b94607ef",
+    "orientation": "portrait",
+    "separate_engine": false,
+    "REMOTE_SERVER_ROOT": "https://idlegame.lokcol.com/wechat-game/",
+    "subContext": ""
+  },
+  "xxteaKey": "4d54a3d5-e6f3-49",
+  "zipCompressJs": true,
+  "android": {
+    "packageName": "com.lokcol.foodieclans"
+  },
+  "ios": {
+    "packageName": "com.lokcol.foodieclans"
+  },
+  "mac": {
+    "packageName": "com.lokcol.foodieclans"
+  },
+  "win32": {},
+  "includeAnySDK": false,
+  "startScene": "044faab8-a5fa-4608-87c7-0ce319db9c5d",
+  "excludeScenes": [
+    "b2ddb3f0-d14f-4f50-8e22-271b3cf84264",
+    "831b0127-7a99-41fc-acb8-b65423dac251",
+    "55473643-fdfa-4787-a18e-8b9cdb2daa93",
+    "17955ffb-2aaa-4acd-bfbf-a4a8e0b3109c"
+  ]
+}

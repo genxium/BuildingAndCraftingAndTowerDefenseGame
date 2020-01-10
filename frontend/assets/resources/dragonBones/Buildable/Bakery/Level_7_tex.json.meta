@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "78e29ed9-19f3-4426-abed-46c1fa470f0b",
+  "atlasJson": "{\"SubTexture\":[{\"x\":368,\"y\":1,\"width\":46,\"name\":\"Chimney\",\"height\":38},{\"frameWidth\":305,\"y\":1,\"frameHeight\":284,\"height\":283,\"frameX\":0,\"width\":305,\"name\":\"Body\",\"frameY\":-1,\"x\":1},{\"x\":308,\"y\":1,\"width\":58,\"name\":\"Logo\",\"height\":48},{\"x\":416,\"y\":1,\"width\":34,\"name\":\"Icon\",\"height\":39}],\"imagePath\":\"Level_7_tex.png\",\"width\":512,\"name\":\"Level_7\",\"height\":512}",
+  "texture": "f0a74728-9150-426a-942d-7c6d24809d12",
+  "subMetas": {}
+}

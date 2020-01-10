@@ -1,0 +1,16 @@
+# This file should be put as "/etc/logrotate.d/mineralchem".                  
+# Manual usage Example                                                            
+# - logrotate -f /etc/logrotate.d/mineralchem                                 
+                                                                           
+/var/log/mineralchem.log {            
+  rotate 12
+  size 32M
+  hourly
+  missingok
+  notifempty
+  compress
+  delaycompress
+  copytruncate
+  create 0640 ubuntu ubuntu
+  su ubuntu ubuntu
+}                                                                          

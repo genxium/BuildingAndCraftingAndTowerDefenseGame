@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "bb2ef588-b627-45d1-b04e-78bc0cc3615e",
+  "atlasJson": "{\"SubTexture\":[{\"frameWidth\":360,\"y\":1,\"frameHeight\":257,\"height\":250,\"frameX\":-14,\"width\":347,\"name\":\"Body\",\"frameY\":-7,\"x\":1},{\"x\":1,\"y\":253,\"width\":209,\"name\":\"Logo_1\",\"height\":199},{\"frameWidth\":64,\"y\":253,\"frameHeight\":64,\"height\":62,\"frameX\":-1,\"width\":62,\"name\":\"Led\",\"frameY\":-1,\"x\":212}],\"imagePath\":\"Level_2_tex.png\",\"width\":512,\"name\":\"Level_2\",\"height\":512}",
+  "texture": "a47dc465-25a0-4656-b69d-5407533f8cf5",
+  "subMetas": {}
+}

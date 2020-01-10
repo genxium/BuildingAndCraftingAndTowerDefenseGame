@@ -1,0 +1,29 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "ShakeTip",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8333333333333334,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "22",
+  "curveData": {
+    "props": {
+      "angle": [
+        {
+          "frame": 0.5,
+          "value": 0
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": -10
+        },
+        {
+          "frame": 0.8333333333333334,
+          "value": 10
+        }
+      ]
+    }
+  },
+  "events": []
+}

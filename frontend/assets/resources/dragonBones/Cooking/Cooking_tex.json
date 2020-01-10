@@ -1,0 +1,1 @@
+{"SubTexture":[{"x":97,"y":1,"width":100,"name":"Body","height":60},{"frameY":0,"y":63,"frameWidth":78,"height":26,"frameHeight":27,"width":78,"name":"Lid","frameX":0,"x":97},{"frameY":0,"y":1,"frameWidth":96,"height":102,"frameHeight":103,"width":94,"name":"heat","frameX":-1,"x":1}],"width":256,"name":"Cooking","imagePath":"Cooking_tex.png","height":128}

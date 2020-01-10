@@ -1,0 +1,1 @@
+{"SubTexture":[{"frameHeight":335,"y":1,"height":327,"frameX":0,"frameY":0,"width":325,"name":"Body","frameWidth":325,"x":1},{"x":1,"y":330,"width":39,"name":"Logo","height":41},{"frameHeight":29,"y":373,"height":27,"frameX":-1,"frameY":-1,"width":27,"name":"Led","frameWidth":29,"x":1}],"width":512,"name":"Level_3","imagePath":"Level_3_tex.png","height":512}

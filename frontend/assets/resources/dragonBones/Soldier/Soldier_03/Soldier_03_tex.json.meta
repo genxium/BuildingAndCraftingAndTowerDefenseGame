@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "6f9d7cff-438b-4c02-8776-e0f5173ed444",
+  "atlasJson": "{\"imagePath\":\"Soldier_03_tex.png\",\"width\":256,\"name\":\"Soldier_03\",\"SubTexture\":[{\"x\":85,\"y\":104,\"width\":14,\"name\":\"LeftHand_2\",\"height\":20},{\"x\":226,\"y\":90,\"width\":19,\"name\":\"LeftHand_1\",\"height\":19},{\"x\":226,\"y\":111,\"width\":13,\"name\":\"LeftFoot_1\",\"height\":14},{\"x\":237,\"y\":25,\"width\":16,\"name\":\"LeftFoot_2\",\"height\":22},{\"x\":1,\"y\":109,\"width\":40,\"name\":\"LeftFoot_3\",\"height\":13},{\"x\":165,\"y\":66,\"width\":36,\"name\":\"Body_1\",\"height\":41},{\"x\":237,\"y\":49,\"width\":13,\"name\":\"RightFoot_1\",\"height\":14},{\"x\":237,\"y\":1,\"width\":16,\"name\":\"RightFoot_2\",\"height\":22},{\"x\":43,\"y\":109,\"width\":40,\"name\":\"RightFoot_3\",\"height\":13},{\"y\":1,\"frameY\":0,\"height\":63,\"frameWidth\":70,\"frameX\":0,\"frameHeight\":63,\"width\":70,\"name\":\"Weapons\",\"x\":165},{\"x\":203,\"y\":66,\"width\":46,\"name\":\"Body_2\",\"height\":22},{\"x\":85,\"y\":83,\"width\":18,\"name\":\"RightHand_2\",\"height\":19},{\"x\":1,\"y\":1,\"width\":80,\"name\":\"Head2\",\"height\":80},{\"x\":83,\"y\":1,\"width\":80,\"name\":\"Head\",\"height\":80},{\"x\":203,\"y\":90,\"width\":21,\"name\":\"RightHand_1\",\"height\":33}],\"height\":128}",
+  "texture": "3cf221a5-c493-4efa-9611-c3ed16d7b63b",
+  "subMetas": {}
+}

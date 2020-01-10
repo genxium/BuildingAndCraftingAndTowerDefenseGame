@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "4ac372e0-04e5-4922-9b29-6c4c82ae0261",
+  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":383,\"name\":\"Farmland1/Dirt_Farm\",\"height\":244},{\"x\":386,\"y\":83,\"width\":55,\"name\":\"Farmland1/铲\",\"height\":75},{\"x\":386,\"y\":1,\"width\":90,\"name\":\"Farmland1/倒\",\"height\":80}],\"imagePath\":\"Level_0_tex.png\",\"width\":512,\"name\":\"Level_0\",\"height\":256}",
+  "texture": "5a9f56bd-4fbf-4f2a-9bd0-8a02752d0f42",
+  "subMetas": {}
+}
