@@ -1,0 +1,73 @@
+<div class="home">
+
+    <header>
+        <span>{{_t('current')}}</span>
+        <span>
+            <ui-select
+                v-value="current"
+            >
+            <template v-for="item in languages">
+                <option>{{item}}</option>
+            </template>
+            </ui-select>
+        </span>
+    </header>
+
+    <section class="control">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"
+            :edit="state === 'edit'"
+            @click="changeEdit"
+        ></i>
+        <i class="fa fa-plus" aria-hidden="true"
+            @click="changeCreate"
+        ></i>
+    </section>
+
+    <section class="list">
+        <ul>
+            <li
+                v-for="item in languages"
+            >
+                <div class="edit"
+                    :edit="state === 'edit'"
+                >
+                    <i class="fa fa-minus-circle" aria-hidden="true"
+                        @click="deleteLanguage(item)"
+                    ></i>
+                </div>
+                <div class="name">
+                    {{item}}
+                </div>
+                <div class="path">
+                    {{_getLanguagePath(item)}}
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <div class="popup"
+        v-if="state === 'create'"
+        :active="state === 'create'"
+    >
+        <div class="mask"></div>
+        <div class="language">
+            <h3>{{_t('create_language')}}</h3>
+            <ui-prop 
+                :name="_t('language')"
+            >
+                <ui-input
+                    v-value="_language"
+                ></ui-input>
+            </ui-prop>
+            <div class="button">
+                <ui-button
+                    @click="createLanguage(_language)"
+                >{{_t('create')}}</ui-button>
+                <ui-button
+                    @click="changeCreate"
+                >{{_t('cancel')}}</ui-button>
+            </div>
+        </div>
+    </div>
+    
+</div>

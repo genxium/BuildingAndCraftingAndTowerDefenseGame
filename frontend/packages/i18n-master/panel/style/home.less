@@ -1,0 +1,136 @@
+@import url('app://bower_components/fontawesome/css/font-awesome.min.css');
+
+:host {
+    display: flex;
+}
+
+.home {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 10px;
+
+    header {
+        border-bottom: 1px solid #666;
+        padding: 10px 5px;
+    }
+
+    .control {
+        padding: 8px 4px;
+
+        i {
+            padding: 4px 6px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .fa-pencil-square-o[edit] {
+            color: #cc0000;
+        }
+    }
+
+    .list {
+        overflow: auto;
+        background: #333;
+        padding: 0;
+        flex: 1;
+
+        ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+                padding: 5px 12px;
+                line-height: 20px;
+                display: flex;
+                list-style: none;
+
+                &:hover {
+                    background: #282828;
+                }
+
+                .edit {
+                    width: 0;
+                    opacity: 0;
+                    font-size: 15px;
+                    transition: opacity 0.3s, width 0.3s;
+                    overflow: hidden;
+                    margin-right: 5px;
+
+                    i {
+                        padding: 3px;
+                        cursor: pointer;
+                        color: #cc0000;
+                    }
+
+                    &[edit] {
+                        width: 18px;
+                        opacity: 1;
+                    }
+                }
+
+                .name {
+                    width: 90px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .path {
+                    flex: 1;
+                    width: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    .popup {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: none;
+
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: #474747;
+            opacity: 0.9;
+        }
+
+        .language {
+            position: absolute;
+            width: 260px;
+            left: 50%;
+            top: 45%;
+            margin: -50px 0 0 -130px;
+
+            h3 {
+                margin: 0 0 12px 0;
+                text-align: center;
+            }
+
+            .button {
+                text-align: right;
+                display: flex;
+
+                ui-button {
+                    margin: 10px;
+                    flex: 1;
+                }
+            }
+        }
+
+        &[active] {
+            display: block;
+        }
+    }
+}

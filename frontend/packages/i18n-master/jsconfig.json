@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "es2015"
+    },
+    "exclude": [
+        "node_modules",
+        "library",
+        "local",
+        "settings",
+        "temp"
+    ]
+}
