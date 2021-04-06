@@ -424,7 +424,7 @@ module.export = cc.Class({
 
   goToTutorialGroupStart(groupIndex) {
     /*
-     * This function will eventually resets the persistent storage value of "player_bulk_sync_data.pb_encoded_sync_data.tutorialStage" in backend, but NOT "player.interrupt_tutorial_mask". 
+     * This function will eventually reset the persistent storage value of "player_bulk_sync_data.pb_encoded_sync_data.tutorialStage" in backend, but NOT "player.interrupt_tutorial_mask". 
      *
      * The persisted "interrupt_tutorial_mask" merely provides a clue for which option was selected after calling "goToTutorialGroupStart" and re-entered a group.
      *
