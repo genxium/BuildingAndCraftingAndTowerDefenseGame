@@ -1193,7 +1193,7 @@ func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
 		return
 	}
 	/*trx finish*/
-	if Conf.General.ServerEnv == SERVER_ENV_TEST && exist {
+	if (SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv) && exist {
 		succRet = Constants.RetCode.IsTestAcc
 		pass = true
 	}

@@ -90,20 +90,11 @@ user@proj-root/battle_srv> make run-anonymous-test
 user@proj-root/battle_srv> make run-anonymous-prod
 ```
 
-
-你也可以同时加用hotreload。
-
-```
-## 安装CompileDaemon，路径默认是$GOPATH/bin/CompileDaemon
-user@proj-root/battle_srv> go get github.com/githubnemo/CompileDaemon 
-user@proj-root/battle_srv> make run-test-and-hotreload
-```
-
 For clearing certain hardcoded test accounts (in `<proj-root>/battle_srv/cli_scripts/player_test.go`), try the following one-liner. 
 
-For updatePlayerCookBinding `started_work_at` test (in `<proj-root>/battle_srv/cli_scripts/player_test.go`),now this script will update all playerCookBinding `started_work_at`,if you want update one playerCookBinding `started_work_at`,you can add `WHERE("player_id": playerId)` at `<proj-root>/battle_srv/cli_scripts/player_test.go` test UpdatePlayerCookBindingStartedWorkAt
+For updatePlayerCookBinding `started_work_at` test (in `<proj-root>/battle_srv/cli_scripts/player_test.go`), now this script will update all playerCookBinding `started_work_at`,if you want update one playerCookBinding `started_work_at`,you can add `WHERE("player_id": playerId)` at `<proj-root>/battle_srv/cli_scripts/player_test.go` test UpdatePlayerCookBindingStartedWorkAt
 
-For updatePlayerWallet `gold,energy,daemon` test (in `<proj-root>/battle_srv/cli_scripts/player_test.go`),this script will update playerId in scripts's playerIds ,if you want update your test player `player_wallte`,you can add update at `<proj-root>/battle_srv/cli_scripts/player_test.go` UpdatePlayerWallet() playerIds
+For updatePlayerWallet `gold,energy,daemon` test (in `<proj-root>/battle_srv/cli_scripts/player_test.go`), this script will update playerId in scripts's playerIds ,if you want update your test player `player_wallet`, you can add update at `<proj-root>/battle_srv/cli_scripts/player_test.go` UpdatePlayerWallet() playerIds
 ```
 user@proj-root/battle_srv> cp -r ./cli_scripts.template ./cli_scripts
 
@@ -140,18 +131,14 @@ and restarting your `redis-server` process if having persistnet redis snapshot i
 # 3. More about development
 ### 3.1 db2struct
 
-将数据库结构转为golang的struct，注意Null的数据类型不用用生成的sql.NullInt64，要自己封装的NullInt64，支持序列化到json，否则不支持。
-
 ```
 user@shell> go get github.com/roowe/db2struct
 user@shell> db2struct -d cuisine --package models --t <table_name> --user <db_name> --password <db_passwd> --struct <struct_name> --sqlx --json
 ```
 
-具体看：https://github.com/Shelnutt2/db2struct。
+See [db2struct](https://github.com/Shelnutt2/db2struct) for more information
 
-### 3.2 json2strust
-
-将json file转为golang的struct。
+### 3.1 json2strust
 
 ```
 user@shell> go get https://github.com/ChimeraCoder/gojson
@@ -212,18 +199,14 @@ The hot way.
 user@proj-root> node proactively_update_global_conf_in_redis.js 
 ```
 
-# 8. Upgrading from "CocosCreator v2.1.3" to "CocosCreator v2.2"
+# 8. Building to ByteDanceMiniGame
 
-In "CocosCreator v2.2", the extension `i18n` is no longer needed and incompatible with the newer version, just delete `<proj-root>/frontend/packages/i18n-master`.
-
-# 9. Building to ByteDanceMiniGame
-
-### 9.1 Use CLI to build the project 
+### 8.1 Use CLI to build the project 
 ```
 - <proj-root/frontend> ./build_to_platform.sh bytedance 
 ```
 
-### 9.2 Uploading to corresponding remote dir 
+### 8.2 Uploading to corresponding remote dir 
 ```
 shell@proj-root> python ./frontend/uploader_scripts/upload_to_qiniu.py -d ./frontend/build/wechatgame/res/ --prefix="wechat-game" -a <MyAppKey> -s <MySecretKey> 
 shell@proj-root> rm -rf ./frontend/build/wechatgame/res/*

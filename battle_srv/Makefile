@@ -5,11 +5,6 @@ GOPROXY=https://mirrors.aliyun.com/goproxy
 all: help
 
 ## ServerEnv == TEST部分 begins
-run-anonymtest: build-test 
-	ServerEnv=AnonymousPlayerEnabledTest ./server
-## ServerEnv == TEST部分 ends
-
-## ServerEnv == TEST部分 begins
 run-test: build-test 
 	ServerEnv=TEST ./server
 

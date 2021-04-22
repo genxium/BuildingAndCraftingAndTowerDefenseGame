@@ -481,7 +481,7 @@ cc.Class({
     this.smsLoginCaptchaInput.getComponent(cc.EditBox).enabled = enabled;
     if (enabled) {
       setVisible(this.interactiveControls);
-      this.anonymousSection.active = true;
+      // this.anonymousSection.active = true;
     } else {
       setInvisible(this.interactiveControls);
     }

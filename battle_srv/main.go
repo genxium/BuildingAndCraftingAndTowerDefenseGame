@@ -38,12 +38,12 @@ func main() {
 	env_tools.LoadPreConf()
 	env_tools.LoadMailboxTranscript()
 	api.LoadGlobalConfFromJsonFile()
-	if Conf.General.ServerEnv == SERVER_ENV_TEST {
+	if SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv {
 		env_tools.MergeTestPlayerAccounts()
 	}
 	startScheduler()
 	var router *gin.Engine
-	if Conf.General.ServerEnv == SERVER_ENV_ANONYMOUS_PROD || Conf.General.ServerEnv == SERVER_ENV_PROD {
+	if SERVER_ENV_ANONYMOUS_PROD == Conf.General.ServerEnv || SERVER_ENV_PROD == Conf.General.ServerEnv {
 		// Disables the default logger of each query.
 		router = gin.New()
 	} else {
