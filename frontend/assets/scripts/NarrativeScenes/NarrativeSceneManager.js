@@ -371,23 +371,22 @@ cc.Class({
         targetOrderingNpcIns.refreshGrandSrcAndCurrentDestination();
         targetOrderingNpcIns.refreshContinuousStopsFromCurrentPositionToCurrentDestination();
         // Initialization of OrderingNpc. [end]
-        _ = self._focusOnNode(new cc.Node(), function() {
+        let p = self._focusOnNode(new cc.Node(), function() {
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
-        _.hide();
+        p.hide();
         self.delegate.moveCameraToPosition(targetOrderingNpcIns.currentDestination, 0.5, function() {
           targetOrderingNpcIns.restartFollowing();
           targetOrderingNpcIns.onStayingAtTargetDestination = function() {
             narrativeSceneScriptIns.statement.string = i18n.t("Tutorial.NarrativeStatements.7_1");
-            _.disable(); 
+            p.disable(); 
             targetOrderingNpcIns.transitToOrderingAtDestinationAfterMovingIn();
 
-            // ���globalShelterChainVerticeMap������npc����. [begin]
             targetOrderingNpcIns.shelterChinColliderNode.active = false;
             window.removeFromGlobalShelterChainVerticeMap(targetOrderingNpcIns.node);
             let targetChairNode = targetOrderingNpcIns.boundStatefulBuildable.chairNodeDict[targetOrderingNpcIns.targetChair.chairId];
             setLocalZOrder(targetOrderingNpcIns.node, getLocalZOrder(targetChairNode) - 1);
-            // ���globalShelterChainVerticeMap������npc����. [end]
+
             let autoOrder = self.delegate.tryToGenerateFreeAutoOrderForNpc(targetOrderingNpcIns);
             autoOrder.timeoutMillisBeforeTaken = Infinity;
             targetOrderingNpcIns.boundAutoOrder = autoOrder;
@@ -410,14 +409,14 @@ cc.Class({
                   cb && cb.apply(this, arguments);
                   window.addToGlobalShelterChainVerticeMap(targetOrderingNpcIns.node);
                   targetOrderingNpcIns.shelterChinColliderNode.active = true;
-                  _.show();
-                  _.resolve(); 
+                  p.show();
+                  p.resolve(); 
                 });
               }
               autoOrder.targetAutoOrderPopup.onClicked(autoOrder); 
               narrativeSceneScriptIns.maskLayer.active = false;
               narrativeSceneScriptIns.statement.string = i18n.t("Tutorial.NarrativeStatements.7_2");
-              _.enable();
+              p.enable();
             }, true);
             controller.highlightedNode.opacity = 0;
           }
@@ -534,10 +533,10 @@ cc.Class({
         self.delegate.widgetsAboveAllScriptIns.sideButtonGroupNode.getComponentsInChildren(cc.Layout).forEach(function(layout) {
           layout.updateLayout();
         });
-        _ = self._focusOnNode(self.delegate.widgetsAboveAllScriptIns.archiveButton.node, function() {}, false);
-        _.disable();
+        let q = self._focusOnNode(self.delegate.widgetsAboveAllScriptIns.archiveButton.node, function() {}, false);
+        q.disable();
         self._focusOnNode(narrativeSceneScriptIns.transitButton.node, function() {
-          _.resolve();
+          q.resolve();
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
         break;
@@ -695,13 +694,13 @@ cc.Class({
         narrativeSceneScriptIns.maskLayer.active = true;
         discretePosWrtMapNode = tileCollisionManager._continuousToDiscrete(self.delegate.node, self.delegate.tiledMapIns, self.delegate.initialCameraPos, cc.v2(0, 0));
         roughContinuousPosWrtMapNode = tileCollisionManager._continuousFromCentreOfDiscreteTile(self.delegate.node, self.delegate.tiledMapIns, null, discretePosWrtMapNode.x, discretePosWrtMapNode.y);
-        _ = new cc.Node();
-        _.position = roughContinuousPosWrtMapNode;
-        _.setContentSize(self.delegate.tiledMapIns.getTileSize());
-        safelyAddChild(self.delegate.node, _);
+        let tmpNode = new cc.Node();
+        tmpNode.position = roughContinuousPosWrtMapNode;
+        tmpNode.setContentSize(self.delegate.tiledMapIns.getTileSize());
+        safelyAddChild(self.delegate.node, tmpNode);
         narrativeSceneScriptIns.narrativeContainer.active = false;
         narrativeSceneScriptIns.transitButton.node.active = false;
-        controller = self._focusOnNode(_, function() {
+        controller = self._focusOnNode(tmpNode, function() {
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
         controller.hide();
@@ -757,10 +756,9 @@ cc.Class({
           break;
         }
 
-        _ = function() {
+        escapingAttackingNpcScriptIns.node.on(cc.Node.EventType.POSITION_CHANGED, function() {
           self.delegate.moveCameraToPosition(escapingAttackingNpcScriptIns.node.position, 0, null);
-        };
-        escapingAttackingNpcScriptIns.node.on(cc.Node.EventType.POSITION_CHANGED, _);
+        });
 
         controller = self._focusOnNode(narrativeSceneScriptIns.transitButton.node, function() {
           self.delegate.endCurrentNarrativeSceneIfApplicable();
@@ -789,25 +787,25 @@ cc.Class({
         if (!self.delegate.isPaused()) {
           self.delegate.pause();
         }
-        _ = self.delegate.getStatefulBuildableInstanceListByBuildableId(
+        let pp = self.delegate.getStatefulBuildableInstanceListByBuildableId(
           self.delegate.stageGoal.questList[0].resourceTargetId
         )[0];
-        if (null == _) {
+        if (null == pp) {
           console.warn('A buildable with buildableId', self.delegate.stageGoal.questList[0].resourceTargetId, 'is required.');
           self.delegate.endCurrentNarrativeSceneIfApplicable();
           break;
         }
-        originalParent = _.node.parent;
-        originalPosition = _.node.position;
+        originalParent = pp.node.parent;
+        originalPosition = pp.node.position;
         controller = self._focusOnNode(narrativeSceneScriptIns.transitButton.node, function() {
-          _.node.parent = originalParent;
-          _.node.position = originalPosition;
+          pp.node.parent = originalParent;
+          pp.node.position = originalPosition;
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
         controller.hide();
-        self.delegate.moveCameraToPosition(_.node.position, 0.3, function() {
-          _.node.parent = narrativeSceneNode;
-          _.node.position = self._mapNodePosToWidgetsAboveAllPos(originalPosition);
+        self.delegate.moveCameraToPosition(pp.node.position, 0.3, function() {
+          pp.node.parent = narrativeSceneNode;
+          pp.node.position = self._mapNodePosToWidgetsAboveAllPos(originalPosition);
           controller.show();
         });
       break;
@@ -881,7 +879,6 @@ cc.Class({
           controller.resolve();
         };
       break;
-
       case 50:
         narrativeSceneScriptIns.transitButton.node.active = false;
         if (null != self.delegate.idlePlayerArchivePanelIns && !self.delegate.idlePlayerArchivePanelIns.isHidden()) {
@@ -898,77 +895,6 @@ cc.Class({
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
       break; 
-      break;
-      case 51:
-        narrativeSceneScriptIns.transitButton.node.active = false;
-        self.delegate.showIdlePlayerArchivePanel();
-        idlePlayerArchivePanelIns = self.delegate.idlePlayerArchivePanelIns;
-        idlePlayerArchivePanelIns.toggleToIngredientTab();
-        idlePlayerArchivePanelIns.ingredientListNode.getComponent(cc.Layout).updateLayout();
-        _ = false;
-        for (let index = 0; index < idlePlayerArchivePanelIns.ingredientList.length; index++) {
-          const ingredient = idlePlayerArchivePanelIns.ingredientList[index];
-          const playerIngredientForIdleGame = self.delegate.getPlayerIngredientForIdleGameByIngredientId(ingredient.id);
-          if (playerIngredientForIdleGame.state == constants.PLAYER_INGREDIENT_FOR_IDLEGAME.STATE.LOCKED_INGREDIENT_PURCHASABLE_TO_UNLOCK) {
-            narrativeSceneScriptIns.statement.string = cc.js.formatStr(
-              i18n.t("Tutorial.NarrativeStatements." + byStageIndex),
-              i18n.t("Ingredient.DisplayName." + ingredient.name)
-            );
-            // Prevent that the user is scrolling th idlePlayerArchivePanelIns. [begin] {
-            idlePlayerArchivePanelIns.ingredientListContainer.getComponent(cc.ScrollView).stopAutoScroll()
-            idlePlayerArchivePanelIns.ingredientListContainer.getComponent(cc.ScrollView).scrollToOffset(
-              idlePlayerArchivePanelIns.ingredientListNode.children[index].position.add(
-                cc.v2(0, idlePlayerArchivePanelIns.ingredientListNode.children[index].height / 2)
-              ).mul(-1), 0
-            );
-            // Prevent that the user is scrolling th idlePlayerArchivePanelIns. [end] }
-            controller = self._focusOnNode(idlePlayerArchivePanelIns.ingredientListNode.children[index], function() {
-              self._setNarratorPosition(narrativeSceneNode, true);
-              self.delegate.showIngredientCellInfoPanel(idlePlayerArchivePanelIns.ingredientListNode.children[index].getComponent('ArchiveIngredientCell'));
-              ingredientCellInfoPanelIns = self.delegate.ingredientCellInfoPanelIns;
-              narrativeSceneScriptIns.statement.string = cc.js.formatStr(
-                i18n.t("Tutorial.NarrativeStatements." + byStageIndex + "_1"),
-                i18n.t("Ingredient.DisplayName." + ingredient.name)
-              );
-              
-              self._focusOnNode(ingredientCellInfoPanelIns.purchaseIngredientButton.node, function() {
-                const targetInteraction = self.delegate.filterBuildableIngredientInteractionByIngredientId(ingredient.id)[0];
-                if (self.delegate.wallet.gold < targetInteraction.ingredientPurchasePriceValue) {
-                  // To prevent gold not enough.
-                  self.delegate.widgetsAboveAllScriptIns.walletInfo.setData({
-                    gold: targetInteraction.ingredientPurchasePriceValue,
-                  });
-                }
-                self.delegate.toUnlockeIngredientByPurchasing(ingredient.id, function() {
-                  self.delegate.endCurrentNarrativeSceneIfApplicable();
-                });
-              }, true);
-
-            }, true);
-            _ = true; 
-            break;
-          }
-        }
-        if (!_) {
-          self.scheduleOnce(function() {
-            idlePlayerArchivePanelIns.onCloseClicked();
-            self.delegate.endCurrentNarrativeSceneIfApplicable();
-          });
-        }
-      break;
-      case 52:
-        self._focusOnNode(narrativeSceneScriptIns.transitButton.node, function() {
-          self.delegate.endCurrentNarrativeSceneIfApplicable();
-        }, true);
-      break;
-      case 53:
-        narrativeSceneScriptIns.transitButton.node.getChildByName("Label").getComponent(cc.Label).string = i18n.t("Tutorial.Finish");
-        self._focusOnNode(narrativeSceneScriptIns.transitButton.node, function() {
-          self.delegate.endCurrentNarrativeSceneIfApplicable();
-        }, true);
-      break;
-
-
       case targetTutorialGroupData.END:
         const forbidTouch = function(evt) {
           if (evt.target != narrativeSceneScriptIns.transitButton.node) {
@@ -1229,27 +1155,6 @@ cc.Class({
       }
       cloneNode = cc.instantiate(node);
       cloneNode.removeComponent(cc.Widget);
-      /* 对于动态创建的节点，converToWorldSpaceAR的计算会有偏差。
-       * 例如添加以下代码时
-         console.log('node', '\n\tsize is:', node.width, '*', node.height, '\n\tposition is:',  node.position, '\n\tparent is:',  node.parent.name);
-         console.log('node.convertToWorldSpaceAR', node.convertToWorldSpaceAR(cc.v2(0, 0)));
-         setTimeout(function() {
-           console.log('1s 后node', '\n\tsize is:', node.width, '*', node.height, '\n\tposition is:',  node.position, '\n\tparent is:',  node.parent.name);
-           console.log('1s 后调用node.convertToWorldSpaceAR', node.convertToWorldSpaceAR(cc.v2(0, 0)));
-         }, 1000);
-       * 可以在控制台看到以下输出：
-       * node 
-       *  size is: 150 * 150 
-       *  position is: Vec2 {x: 0, y: 150} 
-       *  parent is: NarrativeScene
-       *  node.convertToWorldSpaceAR Vec2 {x: 0, y: 150}
-       * 1s 后node 
-       *  size is: 150 * 150 
-       *  position is: Vec2 {x: 0, y: 150} 
-       *  parent is: NarrativeScene
-       * 1s 后调用node.convertToWorldSpaceAR Vec2 {x: 1408.0000000000002, y: 1879.372654155496}
-       * --guoyl6, 2019/10/19
-      */
       button = new cc.Node().addComponent(cc.Button);
       setLocalZOrder(button.node, getLocalZOrder(cloneNode) + 1);
       button.node.width = cloneNode.width;
@@ -1267,25 +1172,24 @@ cc.Class({
         evt.stopPropagation(); 
       }  
     };
-
     
     let touchevents = [
       cc.Node.EventType.TOUCH_START, cc.Node.EventType.TOUCH_MOVE,
       cc.Node.EventType.TOUCH_CANCEL, cc.Node.EventType.TOUCH_END,
     ];
 
-    const bindedData = {
+    const boundData = {
       button: button,
       highlightedNode: cloneNode,
       originalNode: node,
       fingerPosition: position,
       refreshPosition: function() {
         try {
-          bindedData.fingerPosition = calculatePosition();
+          boundData.fingerPosition = calculatePosition();
           if (narrativeSceneScriptIns.transitButton.node != node) {
-            button.node.position = cloneNode.position = bindedData.fingerPosition;
+            button.node.position = cloneNode.position = boundData.fingerPosition;
           }
-          narrativeSceneScriptIns.finger.position = bindedData.fingerPosition;
+          narrativeSceneScriptIns.finger.position = boundData.fingerPosition;
         } catch (e) {
         
         }
@@ -1295,14 +1199,14 @@ cc.Class({
       _binded: false,
       _callback: clickCallback,
       resolve: function(evt) {
-        if (!bindedData._isValid) {
+        if (!boundData._isValid) {
           return;
         }
-        if (bindedData._resolved) {
+        if (boundData._resolved) {
           return;
         }
-        bindedData._resolved = true;
-        bindedData.disable();
+        boundData._resolved = true;
+        boundData.disable();
         if (button != narrativeSceneScriptIns.transitButton) { 
           cloneNode.removeFromParent();
           button.node.removeFromParent();
@@ -1314,13 +1218,13 @@ cc.Class({
       },
       enable() {
         // enable the event listener.
-        if (bindedData._resolved) {
+        if (boundData._resolved) {
           return;
         }
-        if (bindedData._binded) {
+        if (boundData._binded) {
           return;
         }
-        bindedData._binded = true;
+        boundData._binded = true;
         touchevents.forEach(function(ev) {
           narrativeSceneScriptIns.node.on(ev, forbidTouch, null, true);
         })
@@ -1328,12 +1232,12 @@ cc.Class({
         theButtonOnClickHandler.target = self.node;
         theButtonOnClickHandler.component = "NarrativeSceneManager"; 
         theButtonOnClickHandler.handler = "_onFocusedButtonClicked";
-        theButtonOnClickHandler.customEventData = bindedData;
+        theButtonOnClickHandler.customEventData = boundData;
         button.clickEvents = [theButtonOnClickHandler];
       },
       disable() {
         // disable the event listener.
-        bindedData._binded = false;
+        boundData._binded = false;
         button.clickEvents = [];
         touchevents.forEach(function(evName) {
           narrativeSceneScriptIns.node.off(evName, forbidTouch, null, true);
@@ -1341,21 +1245,21 @@ cc.Class({
       },
       hide() {
         // hide highlightedNode and disable callback.
-        bindedData._isValid = false;
-        bindedData.highlightedNode.opacity = 0;
+        boundData._isValid = false;
+        boundData.highlightedNode.opacity = 0;
         if (showFinger) {
           narrativeSceneScriptIns.hideFinger();
         }
-        self.unschedule(bindedData.refreshPosition);
+        self.unschedule(boundData.refreshPosition);
       },
       show() {
         // show highlightedNode and enable callback.
-        bindedData._isValid = true;
-        bindedData.highlightedNode.opacity = 255;
+        boundData._isValid = true;
+        boundData.highlightedNode.opacity = 255;
         if (showFinger) {
-          narrativeSceneScriptIns.playFingerClickAnim(bindedData.fingerPosition);
-          bindedData.refreshPosition();
-          self.scheduleOnce(bindedData.refreshPosition);
+          narrativeSceneScriptIns.playFingerClickAnim(boundData.fingerPosition);
+          boundData.refreshPosition();
+          self.scheduleOnce(boundData.refreshPosition);
         }
       },
       _isValid: true,
@@ -1364,9 +1268,9 @@ cc.Class({
       },
     };
     narrativeSceneScriptIns.hideFinger();
-    bindedData.show();
-    bindedData.enable();
-    return bindedData;
+    boundData.show();
+    boundData.enable();
+    return boundData;
   },
 
   _onFocusedButtonClicked(evt, controller) {

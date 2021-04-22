@@ -4277,7 +4277,7 @@
     "loginTipPrefab": {
       "__uuid__": "5ce5cf1f-ab4a-49cd-bd01-dd1a6f73be6c"
     },
-    "useIdleGameMap": false,
+    "useIdleGameMap": true,
     "smsSection": {
       "__id__": 7
     },
