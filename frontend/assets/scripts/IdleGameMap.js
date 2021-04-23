@@ -535,20 +535,25 @@ cc.Class({
         }
 
         if (couldPassTutorial) {
-          console.warn('The tutorialStage could be passed because the use has already purchase an ingredient before.');
-          return;
+          console.warn('The tutorialStage can be passed because the user has already purchased the requested ingredient.');
+        } else {
+          /*
+          TODO
+
+          There should be a narrative tutorial when the requested ingredient is not yet purchased!
+          */
+          const targetTutorialGroupData = constants.TUTORIAL_STAGE_GROUP[purchaseIngredientStage];
+          if (null != targetTutorialGroupData) {
+            self.currentTutorialGroupIndex = purchaseIngredientStage;
+            self.currentTutorialStage = targetTutorialGroupData.START;
+
+            let zoomDuration = self.mainCamera.zoomRatio != 1 ? 0.5 : 0;
+            self.transitZoomRatioTo(1, zoomDuration, function() {
+              self.narrativeSceneManager.showTutorialStage(null, self.currentTutorialStage);
+            });
+          } 
         }
 
-        const targetTutorialGroupData = constants.TUTORIAL_STAGE_GROUP[purchaseIngredientStage];
-
-        self.currentTutorialGroupIndex = purchaseIngredientStage;
-        self.currentTutorialStage = targetTutorialGroupData.START;
-
-        let zoomDuration = self.mainCamera.zoomRatio != 1 ? 0.5 : 0;
-        self.transitZoomRatioTo(1, zoomDuration, function() {
-          self.narrativeSceneManager.showTutorialStage(null, self.currentTutorialStage);
-        });
-        
         return;
       }
       // Check if the autoOrder's targetIngredient is not unlocked. [end] }

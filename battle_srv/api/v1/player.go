@@ -1193,7 +1193,7 @@ func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
 		return
 	}
 	/*trx finish*/
-	if (SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv) && exist {
+	if Conf.IsTest && exist {
 		succRet = Constants.RetCode.IsTestAcc
 		pass = true
 	}
@@ -1547,7 +1547,7 @@ func (p *playerController) maybeCreateNewPlayer(req ExtAuthLoginReq, tx *sqlx.Tx
 		authChannel = int32(Constants.AuthChannel.GoogleAuth)
 		Logger.Info("maybeCreateNewPlayer", zap.Any("authChannel", authChannel), zap.Any("isUsingSmsAuth", isUsingSmsAuth), zap.Any("extAuthId", extAuthId))
 	}
-	if isUsingSmsAuth && Conf.General.ServerEnv == SERVER_ENV_TEST {
+	if isUsingSmsAuth && Conf.IsTest {
 		// WARNING: This is a dirty hack!
 		player, err := models.GetPlayerByName(tx, req.(*SmsCaptchReq).Num)
 		if err != nil {
@@ -2469,6 +2469,7 @@ func (p *playerController) PlayerBuildableListQuery(c *gin.Context) {
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
+	Logger.Info("player queried from databae, ", zap.Any("playerId", playerId), zap.Any("playerName", player.Name), zap.Any("playerDiamond", player.Diamond))
 
 	playerIngredientForIdleGameList, err := models.GetPlayerIngredientForIdleGameStateByPlayer(tx, playerId)
 	if nil != err {
@@ -3560,7 +3561,7 @@ func (p *playerController) EmailCaptchaObtain(c *gin.Context) {
 		return
 	}
 	/*trx finish*/
-	if Conf.General.ServerEnv == SERVER_ENV_TEST && exist {
+	if Conf.IsTest && exist {
 		succRet = Constants.RetCode.IsTestAcc
 		pass = true
 	}

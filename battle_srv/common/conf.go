@@ -63,9 +63,14 @@ type config struct {
 	Redis          *redisConf
 	GlobalConfEtag *uint32
 	WechatGameConf *WechatConf
+  IsTest         bool
+}
+
+func IsTest () {
 }
 
 func MustParseConfig() {
+  
 	// 初始所有指针数据
 	Conf = &config{
 		General:        new(generalConf),
@@ -73,6 +78,7 @@ func MustParseConfig() {
 		Sio:            new(sioConf),
 		Redis:          new(redisConf),
 		WechatGameConf: new(WechatConf),
+    IsTest        : false, // will be updated within this function
 	}
 	execPath, err := os.Executable()
 	ErrFatal(err)
@@ -113,8 +119,10 @@ func MustParseConfig() {
 	Conf.General.ConfDir = confDir
 	Conf.General.ServerEnv = os.Getenv("ServerEnv")
 
+  Conf.IsTest = (SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv)
+
 	var preConfSQLitePath string
-	if SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv {
+	if Conf.IsTest {
 		preConfSQLitePath = filepath.Join(confDir, "preconfigured.test.sqlite")
 	} else {
 		preConfSQLitePath = filepath.Join(confDir, "preconfigured.sqlite")

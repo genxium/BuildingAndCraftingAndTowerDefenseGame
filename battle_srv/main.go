@@ -38,7 +38,7 @@ func main() {
 	env_tools.LoadPreConf()
 	env_tools.LoadMailboxTranscript()
 	api.LoadGlobalConfFromJsonFile()
-	if SERVER_ENV_TEST == Conf.General.ServerEnv || SERVER_ENV_ANONYMOUS_TEST == Conf.General.ServerEnv {
+	if Conf.IsTest {
 		env_tools.MergeTestPlayerAccounts()
 	}
 	startScheduler()

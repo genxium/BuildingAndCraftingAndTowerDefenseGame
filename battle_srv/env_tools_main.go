@@ -14,7 +14,7 @@ func mmain() {
 	iap.InitTrustedCertManager()
 	env_tools.LoadPreConf()
 	env_tools.LoadMailboxTranscript()
-	if Conf.General.ServerEnv == SERVER_ENV_TEST {
+	if Conf.IsTest {
 		env_tools.MergeTestPlayerAccounts()
 	}
 }
