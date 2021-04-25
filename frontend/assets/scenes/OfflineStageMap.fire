@@ -464,7 +464,7 @@
     ],
     "statelessBuildableInstanceCardPrefab": null,
     "statefulBuildableInstancePrefab": {
-      "__uuid__": "9ed22637-6a73-41d6-8120-9597b1214b89"
+      "__uuid__": "ec3c97e2-9ae1-456f-b710-abd7d1d361e5"
     },
     "iapEnabled": false,
     "boostEnabled": false,
@@ -557,7 +557,7 @@
       "array": [
         0,
         0,
-        221.7025033688163,
+        225.31997245887354,
         0,
         0,
         0,

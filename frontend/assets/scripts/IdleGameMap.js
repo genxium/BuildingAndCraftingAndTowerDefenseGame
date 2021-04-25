@@ -8,7 +8,7 @@ cc.Class({
     comboBgmAudioClip: {
       type: cc.AudioClip,
       default: null,
-    },
+    },  
   },
 
   ctor() {
@@ -21,11 +21,11 @@ cc.Class({
     // Data scope for playerIngredientForIdleGame. [end] }
     this.cachedGoldNodeList = [];
     this.toIgnoreBuildableIds = [
-      constants.STATELESS_BUILDABLE_ID.FIRE_TOWER,
-      constants.STATELESS_BUILDABLE_ID.STONE_TOWER,
-      constants.STATELESS_BUILDABLE_ID.THUNDER_TOWER,
-      constants.STATELESS_BUILDABLE_ID.CANNON_TOWER,   
-      constants.STATELESS_BUILDABLE_ID.LABORATORY,   
+      // constants.STATELESS_BUILDABLE_ID.FIRE_TOWER,
+      // constants.STATELESS_BUILDABLE_ID.STONE_TOWER,
+      // constants.STATELESS_BUILDABLE_ID.THUNDER_TOWER,
+      // constants.STATELESS_BUILDABLE_ID.CANNON_TOWER,   
+      // constants.STATELESS_BUILDABLE_ID.LABORATORY,   
     ];
     this.comboCulmulatedCount = 0;
 

@@ -704,9 +704,9 @@ cc.Class({
           self.delegate.endCurrentNarrativeSceneIfApplicable();
         }, true);
         controller.hide();
-        self.delegate.moveCameraToPosition(_.position, 0.3, function() { 
+        self.delegate.moveCameraToPosition(tmpNode.position, 0.3, function() { 
           const highlighterNode = cc.instantiate(self.delegate.tileHighlighterPrefab);
-          highlighterNode.setPosition(roughContinuousPosWrtMapNode.sub(_.position));
+          highlighterNode.setPosition(roughContinuousPosWrtMapNode.sub(tmpNode.position));
           safelyAddChild(narrativeSceneNode, highlighterNode);
           setLocalZOrder(highlighterNode, CORE_LAYER_Z_INDEX.INFINITY - 1);
           highlighterNode.getComponent("TileHighlighter").soldierDroppable.node.active = true;

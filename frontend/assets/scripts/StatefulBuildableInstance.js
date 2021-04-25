@@ -692,29 +692,29 @@ const StatefulBuildableInstance = cc.Class({
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_WHILE_NEW:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_PANEL_WHILE_NEW:
         self.stopCurrentBuildableAnimation();
-        if (!self.showSkeletalAnimation(1)) {
+        if (!self._showSkeletalAnim(1)) {
           self.showStatelessBuildableAppearance(1);
         }
         break;
       case STATEFUL_BUILDABLE_INSTANCE_STATE.BUILDING:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_WHILE_BUILDING:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_PANEL_WHILE_BUILDING:
-        if (!self.showSkeletalAnimation(0)) {
-          self.showBuildingAnimation();
+        if (!self._showSkeletalAnim(0)) {
+          self._showConstructingFrameAnim();
         }
         break;
       case STATEFUL_BUILDABLE_INSTANCE_STATE.IDLE:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_PANEL:
-        if (!self.showSkeletalAnimation(self.currentLevel)) {
-          self.showBuildableAnimation(self.currentLevel);
+        if (!self._showSkeletalAnim(self.currentLevel)) {
+          self._showFrameAnim(self.currentLevel);
         }
         break;
       case STATEFUL_BUILDABLE_INSTANCE_STATE.UPGRADING:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_WHILE_UPGRADING:
       case STATEFUL_BUILDABLE_INSTANCE_STATE.EDITING_PANEL_WHILE_UPGRADING:
-        if (!self.showSkeletalAnimation(0)) {
-          self.showUpgradingAnimation(self.currentLevel);
+        if (!self._showSkeletalAnim(0)) {
+          self._showUpgradingFrameAnim(self.currentLevel);
         }
         break;
       default:
@@ -767,14 +767,6 @@ const StatefulBuildableInstance = cc.Class({
 
   calculateScaleForSkeletalAnimation() {
     const self = this;
-    // TODO: Correct the scale value by the viewing frame Height.
-    // The following code is not correct always, but it may be helpful for you.
-    /*
-        let skeletalAnimationTargetIns = self.getPlayingSkeletalAnimationIns();
-        let minVertice = skeletalAnimationTargetIns._curFrame.vertices.reduce(function(minValue, val) {return isNaN(val) ? minValue : Math.min(minValue, val); }, 0),
-        maxVertice = skeletalAnimationTargetIns._curFrame.vertices.reduce(function(maxValue, val) {return isNaN(val) ? maxValue : Math.max(maxValue, val); }, 0),
-        frameHeight = maxVertice - minVertice;
-    */
     let specifiedSkeletalScale = constants.BUILDABLE.SPECIFIED_SKELETAL_SCALE[self.displayName];
     let level = self.isUpgrading() || self.isBuilding() ? 0 : self.currentLevel;
     if (typeof specifiedSkeletalScale == 'number') {
@@ -798,9 +790,9 @@ const StatefulBuildableInstance = cc.Class({
     }
   },
 
-  showUpgradingAnimation(lv) {
+  _showUpgradingFrameAnim(lv) {
     const self = this;
-    const animation = self.node.getComponent(cc.Animation);
+    const ccAnimation = self.node.getComponent(cc.Animation);
     let upgradingAnimClipName = cc.js.formatStr("%s_Level_0", self.displayName);
     let defaultAnimClipName = constants.BUILDING_ANIM.DEFAULT_UPGRADING;
     if (null != self.animationState && self.animationState.name == upgradingAnimClipName) {
@@ -810,19 +802,19 @@ const StatefulBuildableInstance = cc.Class({
     self.stopCurrentBuildableAnimation(); 
     // Warning: StatefulBuildableInstanceInfoPanel中会使用到activeAppearance
     self.showStatelessBuildableAppearance(lv);
-    if ( (self.animationState = animation.playAdditive(upgradingAnimClipName)) ) {
+    if ( (self.animationState = ccAnimation.playAdditive(upgradingAnimClipName)) ) {
       return;
     }
     console.warn("The expected upgrading anim clip is not found for:", upgradingAnimClipName);
-    if ( (self.animationState = animation.playAdditive(defaultAnimClipName)) ) {
+    if ( (self.animationState = ccAnimation.playAdditive(defaultAnimClipName)) ) {
       return;
     }
     console.warn("The expected upgrading anim clip is not found for:", defaultAnimClipName);
   },
 
-  showBuildingAnimation() {
+  _showConstructingFrameAnim() {
     const self = this;
-    const animation = self.node.getComponent(cc.Animation);
+    const ccAnimation = self.node.getComponent(cc.Animation);
     let buildingAnimClipName = cc.js.formatStr("%s_Level_0", self.displayName),
       defaultBuildingAnimClipName = constants.BUILDING_ANIM.DEFAULT_BUILDING;
     if (null != self.animationState && self.animationState.name == buildingAnimClipName) {
@@ -832,17 +824,17 @@ const StatefulBuildableInstance = cc.Class({
     self.stopCurrentBuildableAnimation(); 
     // Warning: StatefulBuildableInstanceInfoPanel中会使用到activeAppearance
     self.showStatelessBuildableAppearance(1);
-    if ( (self.animationState = animation.playAdditive(buildingAnimClipName)) ) {
+    if ( (self.animationState = ccAnimation.playAdditive(buildingAnimClipName)) ) {
       return;
     }
     console.warn("The expected lv0 building anim clip is not found for:", buildingAnimClipName);
-    if ( (self.animationState = animation.playAdditive(defaultBuildingAnimClipName)) ) {
+    if ( (self.animationState = ccAnimation.playAdditive(defaultBuildingAnimClipName)) ) {
       return;
     }
     console.warn("The expected default building anim clip is not found for:", defaultBuildingAnimClipName);
   },
 
-  showBuildableAnimation(lv) {
+  _showFrameAnim(lv) {
     const self = this;
     const animation = self.node.getComponent(cc.Animation);
     const levelAnimClipName = cc.js.formatStr("%s_Level_%s", self.displayName, lv);
@@ -859,12 +851,20 @@ const StatefulBuildableInstance = cc.Class({
     console.warn(cc.js.formatStr("The expected level anim clip is not found for %s: %s", self.currentLevel, levelAnimClipName));
   },
 
-  showSkeletalAnimation(lv) {
+  _showSkeletalAnim(lv) {
     const self = this;
     if (null == self.skeletalAnimationIns) {
       return false;
     }
-    const skeletalAnimationTargetIns = self.skeletalAnimationIns[cc.js.formatStr('Level_%s', lv)];
+    const levelKey = cc.js.formatStr('Level_%s', lv);
+    // [WARNING] Tricky part here, we might use a dictionary "self.skeletalAnimationIns" carrying only a key "StoneTower" which in turn carries another dictionary of "level -> animationName" within the same "dragonBones.ArmatureDisplay".  
+    let skeletalAnimationTargetIns = null;
+    if (self.skeletalAnimationIns.hasOwnProperty(levelKey)) {
+      skeletalAnimationTargetIns = self.skeletalAnimationIns[levelKey];  
+    } else {
+      skeletalAnimationTargetIns = Object.values(self.skeletalAnimationIns)[0];  
+    }
+
     self.showStatelessBuildableAppearance(lv == 0 ? 1 : lv);
     if (null == skeletalAnimationTargetIns) {
       console.warn(cc.js.formatStr("The expected skeletalAnimation is not found for %s, level is %s", self.displayName, lv));
@@ -875,14 +875,15 @@ const StatefulBuildableInstance = cc.Class({
       return true;
     }
     self.stopCurrentBuildableAnimation();
-    self._playBuildableSkeletalAnimation(skeletalAnimationTargetIns);
+    self._actuallyPlaySkeletal(skeletalAnimationTargetIns);
     self._correctSize();
     return true;
   },
 
   getPlayingSkeletalAnimationIns() {
+    // Returns the active skeletal animation node, which is supposed to be the one matching the current level.
     const self = this;
-    if (!self.skeletalAnimationIns) {
+    if (null == self.skeletalAnimationIns) {
       return null;
     }
     return Object.values(self.skeletalAnimationIns).find(function(skeletalAnimationIns) {
@@ -897,34 +898,26 @@ const StatefulBuildableInstance = cc.Class({
       return;
     }
     self.animationClipsLoaded = true;
-    const animation = self.node.getComponent(cc.Animation);
+    const ccAnimation = self.node.getComponent(cc.Animation);
     if (!targetNode) {
       console.warn("Lacking animationNode for:", self.displayName);
       return;
     }
 
-    let index = 0;
-    targetNode.getComponent(cc.Animation).getClips().forEach((clip) => {
-      if (index > self.levelConfs.length) {
-        return;
-      }
-      if (null == clip) {
-        console.warn("Clip is nonexistent for: ", self.displayName, ", level: ", index);
-      } else {
-        animation.addClip(clip, cc.js.formatStr("%s_%s", self.displayName, clip.name));
-      }
-      ++index;
-    });
-    // load skeletalAnimationIns [begin].
-    self.skeletalAnimationIns = {};
-    let skeletalAnimationNode = targetNode.getChildByName('Skeletal');
+    const skeletalAnimationNode = targetNode.getChildByName('Skeletal') || targetNode; // For the "Battle Towers", e.g. "FireTowerAnimationNode", we don't have a child named "Skeletal" but the "targetNode" by now is already containing a skeletal-anim component 
     if (null != skeletalAnimationNode) {
-      skeletalAnimationNode.children.slice().forEach(function(childNode) {
+      const allPossibleSkeletalAnimationNodes = skeletalAnimationNode.children.slice();      
+      allPossibleSkeletalAnimationNodes.push(skeletalAnimationNode);
+
+      self.skeletalAnimationIns = {};
+      allPossibleSkeletalAnimationNodes.forEach(function(childNode) {
+        const skeletalAnimationTargetIns = childNode.getComponent(dragonBones.ArmatureDisplay);
+        if (null == skeletalAnimationTargetIns) return; 
         childNode.parent = self.node;
         childNode.active = false;
         // priority: dragonBones > spine
         // try load dragonBones
-        let skeletalAnimationTargetIns = self.skeletalAnimationIns[childNode.name] = childNode.getComponent(dragonBones.ArmatureDisplay);
+        self.skeletalAnimationIns[childNode.name] = skeletalAnimationTargetIns; 
         let called = false;
         function onStartPlay() {
           if (called) {
@@ -945,23 +938,27 @@ const StatefulBuildableInstance = cc.Class({
           }
         }
 
-        if (skeletalAnimationTargetIns != null) {
+        if (null != skeletalAnimationTargetIns) {
           skeletalAnimationTargetIns.on(dragonBones.EventObject.START, onStartPlay);
         } else {
-          // try load spine
-          // Warning: the node's name should same as the armatureName.
-          skeletalAnimationTargetIns = self.skeletalAnimationIns[childNode.name] = childNode.getComponent(sp.Skeleton);
-          if (null != skeletalAnimationTargetIns) {
-            skeletalAnimationTargetIns.setStartListener(onStartPlay);
-          }
-        }
-
-        if (null == skeletalAnimationTargetIns) {
           console.warn(cc.js.formatStr('There is no dragonBones or spine in childNode, parentNode is %s/Skeletal', targetNode.name));
         }
       });
+    } else {
+      // Otherwise use cc.Animation
+      let index = 0;
+      targetNode.getComponent(cc.Animation).getClips().forEach((clip) => {
+        if (index > self.levelConfs.length) {
+          return;
+        }
+        if (null == clip) {
+          console.warn("Clip is nonexistent for: ", self.displayName, ", level: ", index);
+        } else {
+          ccAnimation.addClip(clip, cc.js.formatStr("%s_%s", self.displayName, clip.name));
+        }
+        ++index;
+      });
     }
-    // load skeletalAnimationIns [end].
   },
 
   boost() {
@@ -1077,48 +1074,35 @@ const StatefulBuildableInstance = cc.Class({
     const self = this;
     let skeletalAnimationIns = self.getPlayingSkeletalAnimationIns();
     if (null != skeletalAnimationIns) {
-      self._playBuildableSkeletalAnimation(skeletalAnimationIns);
+      self._actuallyPlaySkeletal(skeletalAnimationIns);
     }
   },
 
-  _playBuildableSkeletalAnimation(skeletalAnimationTargetIns) {
+  _actuallyPlaySkeletal(skeletalAnimationTargetIns) {
     const self = this;
     skeletalAnimationTargetIns.node.active = true;
-    if (skeletalAnimationTargetIns instanceof dragonBones.ArmatureDisplay) {
-      // TODO: If using dragonBones, correct the animation name.
-      // TODO: if using dragonBones, make sure it can work good in tutorial.
-      let armature = skeletalAnimationTargetIns.node.name;
-      let animationName = 'Idle';
-      skeletalAnimationTargetIns._init();
-      const existingAnimNames = skeletalAnimationTargetIns.getAnimationNames(armature);  
-      // console.log("Of self.id == ", self.id, ", armature == ", armature, ", existingAnimNames == ", existingAnimNames, ", count(existingAnimNames) == ", Object.keys(existingAnimNames).length);
-      if (existingAnimNames.indexOf(animationName) == -1) {
-        animationName = 'Idle'; // hardcode temporarily
-      }
-      if (
-          skeletalAnimationTargetIns.getAnimationNames(armature).indexOf('Producing') != -1
-          &&
-          self.couldShowProducingAnimation()
-          &&
-          self.mapIns.isStatefulBuildableInstanceProducingSomething(self)
-      ) {
-        animationName = 'Producing';
-      }
-      /*
-      // In "CocosCreator v2.2.0" & "CocosCreator v2.2.1-rc9", this commented assignment to "dragonBones.ArmatureDisplay" will result in a crash on native platform, e.g. Android/iOS/Simulator !
-      skeletalAnimationTargetIns.armatureName = armature;
-      */
-      skeletalAnimationTargetIns.playAnimation(animationName, 0);
-    } else if (skeletalAnimationTargetIns instanceof sp.Skeleton) {
-      skeletalAnimationTargetIns._updateSkeletonData();
-      // TODO: Correct the animation name.
-      skeletalAnimationTargetIns.animation = cc.js.formatStr("IDLE");
+    let armature = skeletalAnimationTargetIns.node.name;
+    let animationName = 'Idle';
+    skeletalAnimationTargetIns._init();
+    const existingAnimNames = skeletalAnimationTargetIns.getAnimationNames(armature);  
+    // console.log("Of self.id == ", self.id, ", armature == ", armature, ", existingAnimNames == ", existingAnimNames, ", count(existingAnimNames) == ", Object.keys(existingAnimNames).length);
+    if (existingAnimNames.indexOf(animationName) == -1) {
+      animationName = 'Idle'; // hardcode temporarily
     }
+    if (
+        skeletalAnimationTargetIns.getAnimationNames(armature).indexOf('Producing') != -1
+        &&
+        self.couldShowProducingAnimation()
+        &&
+        self.mapIns.isStatefulBuildableInstanceProducingSomething(self)
+    ) {
+      animationName = 'Producing';
+    }
+    skeletalAnimationTargetIns.playAnimation(animationName, 0);
   },
 
   cloneAnimation(targetNode) {
-    // WARNING: targetNode should be created by cc.instantiate(statefulBuildableInstance.node)
-    //          The statefulBuildableInstance should be active and _refreshAppearanceResource at lease once.
+    // [WARNING] Here "targetNode" should be created by cc.instantiate(statefulBuildableInstance.node). The statefulBuildableInstance should be active and _refreshAppearanceResource at lease once.
     const self = this;
     let sprite = targetNode.getComponent(cc.Sprite);
     let anim = targetNode.getComponent(cc.Animation);
@@ -1131,17 +1115,11 @@ const StatefulBuildableInstance = cc.Class({
       }
       anim.playAdditive(self.anim.currentClip.name);
     } else {
-      let clonedSkeletalAnimationNode = targetNode.getChildByName(cc.js.formatStr('Level_%s', self.currentLevel)),
-          clonedSkeletalAnimationIns = null;
-      // TODO: Correct the scale value by the viewing frame Height.
+      let clonedSkeletalAnimationNode = targetNode.getChildByName(cc.js.formatStr('Level_%s', self.currentLevel));
       clonedSkeletalAnimationNode.scale = self.calculateScaleForSkeletalAnimation();
-      if (skeletalAnimationTargetIns instanceof dragonBones.ArmatureDisplay) {
-        clonedSkeletalAnimationIns = clonedSkeletalAnimationNode.getComponent(dragonBones.ArmatureDisplay);
-      } else if (skeletalAnimationTargetIns instanceof sp.Skeleton) {
-        clonedSkeletalAnimationIns = clonedSkeletalAnimationNode.getComponent(sp.Skeleton);
-      }
-      self._playBuildableSkeletalAnimation(skeletalAnimationTargetIns);
-      self._playBuildableSkeletalAnimation(clonedSkeletalAnimationIns);
+      const clonedSkeletalAnimationIns = clonedSkeletalAnimationNode.getComponent(dragonBones.ArmatureDisplay);
+      self._actuallyPlaySkeletal(skeletalAnimationTargetIns);
+      self._actuallyPlaySkeletal(clonedSkeletalAnimationIns);
     }
   },
 
