@@ -425,7 +425,7 @@ module.export = cc.Class({
   },
 
   onCollisionExit(otherCollider, selfCollider) {
-    BasePlayer.prototype.onCollisionEnter.call(this, otherCollider, selfCollider);
+    BasePlayer.prototype.onCollisionExit.call(this, otherCollider, selfCollider);
     const self = this.getComponent(this.node.name);
     switch (otherCollider.node.name) {
       case "PolygonBoundaryBarrier":

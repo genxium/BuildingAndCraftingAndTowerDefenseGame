@@ -195,7 +195,7 @@ module.export = cc.Class({
       /* To avoid unexpected buckling. */
       const mutatedVecToMoveBy = vecToMoveBy.mul(2);
       nextSelfColliderCircle = {
-        position: self.node.position.add(vecToMoveBy.mul(2)).add(
+        position: self.node.position.add(mutatedVecToMoveBy).add(
           currentSelfColliderCircle.offset
         ),
         radius: currentSelfColliderCircle.radius,
@@ -321,7 +321,8 @@ module.export = cc.Class({
       case "PolygonBoundaryTransparent":
         if (false == other.node.pTiledLayer.node.active || 0 == other.node.pTiledLayer.node.opacity ) break;
         other.node.affectedAccount--;
-        if(0 == other.node.affectedAccount) { //如果该透明化建筑中还有npc, 则不隐藏shelter
+        if(0 == other.node.affectedAccount) { 
+          //如果该透明化建筑中还有npc, 则不隐藏shelter
           window.cancelPreviewingOfShelter(mapIns, playerScriptIns.mapNode, other.node.pTiledLayer, other.node.tileDiscretePos);
         }
         break;

@@ -136,7 +136,7 @@ window.findPathWithMapDiscretizingAStar = function(continuousSrcPtInMapNode, con
 
   let openSetFromSrc = new Set();
   let closedSet = new Set();
-  let dFromSrc = {}; // Actial distance for path "srcPt -> k (end of current path)". 
+  let dFromSrc = {}; // Actual distance for path "srcPt -> k (end of current path)". 
   let hTotal = {}; // Heuristically estimated total distance for path "srcPt -> k (must pass) -> dstPt". 
 
   // Initialization.
