@@ -110,12 +110,10 @@ func setRouter(router *gin.Engine) {
 	{
 		playerRouter.Use(api.HandleRet(), api.RequestLogger())
 		playerRouter.GET("/SmsCaptcha/Obtain", v1.Player.SmsCaptchaObtain)
-		playerRouter.GET("/EmailCaptcha/Obtain", v1.Player.EmailCaptchaObtain)
 		playerRouter.POST("/IntAuthToken/Login", v1.Player.IntAuthTokenLogin)
 		playerRouter.POST("/IntAuthToken/Logout", v1.Player.IntAuthTokenLogout)
 		playerRouter.POST("/GoogleAuth/Login", v1.Player.GoogleAuthLogin)
 		playerRouter.POST("/SmsCaptcha/Login", v1.Player.SMSCaptchaLogin)
-		playerRouter.POST("/EmailCaptcha/Login", v1.Player.EmailCaptchaLogin)
 		playerRouter.POST("/GameCenter/Login", v1.Player.GameCenterLogin)
 		playerRouter.POST("/WechatGame/Login", v1.Player.WechatGameLogin)
 		playerRouter.POST("/Anonymous/ByteDance/Login", v1.Player.AnonymousByteDanceLogin)

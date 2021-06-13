@@ -3,7 +3,6 @@ package v1
 import (
 	"bytes"
 	"crypto/sha256"
-	"crypto/tls"
 	"database/sql"
 	"encoding/base64"
 	"encoding/hex"
@@ -18,7 +17,6 @@ import (
 	"hash/crc32"
 	"io/ioutil"
 	"net/http"
-	"net/smtp"
 	"reflect"
 	"server/api"
 	. "server/common"
@@ -32,7 +30,6 @@ import (
 	"server/storage"
 	wechatVerifier "server/wechat"
 	"strconv"
-	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -46,35 +43,22 @@ type ExtAuthLoginReq interface {
 	extAuthId() string
 }
 
-/* SmsCaptchReq [begins]. */
-type SmsCaptchReq struct {
+/* SmsCaptchaReq [begins]. */
+type SmsCaptchaReq struct {
 	Num         string `json:"phoneNum,omitempty" form:"phoneNum"`
 	CountryCode string `json:"phoneCountryCode,omitempty" form:"phoneCountryCode"`
 	Captcha     string `json:"smsLoginCaptcha,omitempty" form:"smsLoginCaptcha"`
 }
 
-type EmailCaptchReq struct {
-	Email   string `json:"email" form:"email"`
-	Captcha string `json:"emailLoginCaptcha,omitempty" form:"emailLoginCaptcha"`
-}
-
-func (req *SmsCaptchReq) extAuthId() string {
+func (req *SmsCaptchaReq) extAuthId() string {
 	return req.CountryCode + req.Num
 }
 
-func (req *SmsCaptchReq) redisKey() string {
+func (req *SmsCaptchaReq) redisKey() string {
 	return "/cuisine/sms/captcha/" + req.extAuthId()
 }
 
-func (req *EmailCaptchReq) extAuthId() string {
-	return req.Email
-}
-
-func (req *EmailCaptchReq) redisKey() string {
-	return "/cuisine/email/captcha/" + req.extAuthId()
-}
-
-/* SmsCaptchReq [ends]. */
+/* SmsCaptchaReq [ends]. */
 
 /* GoogleAuthLoginReq [begins]. */
 type GoogleAuthLoginReq struct {
@@ -1130,8 +1114,9 @@ func (p *playerController) GlobalConfRead(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resp)
 }
+
 func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
-	var req SmsCaptchReq
+	var req SmsCaptchaReq
 	err := c.ShouldBindQuery(&req)
 	api.CErr(c, err)
 	if err != nil || req.Num == "" || req.CountryCode == "" {
@@ -1139,121 +1124,138 @@ func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
 		return
 	}
 	redisKey := req.redisKey()
-	ttl, err := storage.RedisManagerIns.TTL(redisKey).Result()
-	Logger.Debug("redis ttl", zap.String("key", redisKey), zap.Duration("ttl", ttl))
 	api.CErr(c, err)
 	if err != nil {
 		c.Set(api.RET, Constants.RetCode.UnknownError)
 		return
 	}
-	// redis剩余时长校验
-	if ttl >= ConstVals.Player.CaptchaMaxTTL {
-		c.Set(api.RET, Constants.RetCode.SmsCaptchaRequestedTooFrequently)
-		return
-	}
-	//Logger.Debug(ttl, Vals.Player.CaptchaMaxTTL)
-	var pass bool
-	var succRet int64
-	/*trx start*/
+
+	/* trx starts */
 	tx := storage.MySQLManagerIns.MustBegin()
 	defer tx.Rollback()
-	// 测试环境，优先从数据库校验，校验不通过，走手机号校验
-	exist, err := models.ExistPlayerByName(tx, req.Num)
+
+  var testPlayer *models.Player = nil
+  if Conf.IsTest {
+    // When "true == IsTest", we allow obtaining the captcha by "magic player names", by now only the "test accounts" can have non-null field "player.name"
+    testPlayer, err = models.GetPlayerByName(tx, req.Num)
+    if err != nil {
+      c.Set(api.RET, Constants.RetCode.MysqlError)
+      return
+    }
+  }
+
+	if nil == testPlayer {
+    // "false == IsTest" or haven't obtained a valid "test account"
+    if "86" != req.CountryCode || !RE_CHINA_PHONE_NUM.MatchString(req.Num) {
+		// TODO: Don't be limited to Chinese phone numbers
+      c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
+      return
+		}
+	}
+
+  captcha := strconv.Itoa(utils.Rand.Number(1000, 9999))
+  if nil == testPlayer {
+    smsSendErr := sendMessage(req.Num, req.CountryCode, captcha)
+    if 0 != smsSendErr {
+      c.Set(api.RET, Constants.RetCode.ErrSendingSms)
+      return
+    }
+  }
+
+	resp := struct {
+		Ret                        int64 `json:"ret"`
+    Captcha                    string `json:"string"`
+		SmsCaptchaReq
+	}{
+    Ret: Constants.RetCode.Ok,
+    Captcha: captcha,
+  }
+
+  if nil != testPlayer {
+    resp.Ret = Constants.RetCode.IsTestAcc
+  }
+
+	nowSeconds := utils.UnixtimeSec()
+  persistentCaptcha := &models.PersistentCaptcha {
+    Key: redisKey,
+    Value: captcha,
+    CreatedAt: nowSeconds*1000,
+    ExpiresAt: models.NewNullInt64((nowSeconds + Constants.Player.SmsExpiredSeconds)*1000),
+  }
+
+  err = persistentCaptcha.Insert(tx)
 	if err != nil {
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
-	player, err := models.GetPlayerByName(tx, req.Num)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	if player != nil {
-		tokenExist, err := models.EnsuredPlayerLoginById(tx, player.ID)
-		if err != nil {
-			c.Set(api.RET, Constants.RetCode.MysqlError)
-			return
-		}
-		if tokenExist {
-			playerLogin, err := models.GetPlayerLoginByPlayerId(tx, player.ID)
-			if err != nil {
-				c.Set(api.RET, Constants.RetCode.MysqlError)
-				return
-			}
-			err = models.DelPlayerLoginByToken(tx, playerLogin.IntAuthToken)
-			if err != nil {
-				c.Set(api.RET, Constants.RetCode.MysqlError)
-				return
-			}
-		}
-	}
+
 	err = tx.Commit()
 	if err != nil {
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
-	/*trx finish*/
-	if Conf.IsTest && exist {
-		succRet = Constants.RetCode.IsTestAcc
-		pass = true
-	}
-	if !pass {
-		if RE_PHONE_NUM.MatchString(req.Num) {
-			succRet = Constants.RetCode.Ok
-			pass = true
-		}
-		//hardecode 只验证国内手机号格式
-		if req.CountryCode == "86" {
-			if RE_CHINA_PHONE_NUM.MatchString(req.Num) {
-				succRet = Constants.RetCode.Ok
-				pass = true
-			} else {
-				succRet = Constants.RetCode.Ok
-				pass = false
-			}
-		}
-	}
-	if !pass {
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-	resp := struct {
-		Ret                        int64 `json:"ret"`
-		GetSmsCaptchaRespErrorCode int32 `json:"getSmsCaptchaRespErrorCode"`
-		SmsCaptchReq
-	}{Ret: succRet}
-	var captcha string
-	if ttl >= 0 {
-		// 续验证码时长，重置剩余时长
-		storage.RedisManagerIns.Expire(redisKey, ConstVals.Player.CaptchaExpire)
-		captcha = storage.RedisManagerIns.Get(redisKey).Val()
-		if ttl >= ConstVals.Player.CaptchaExpire/4 {
-			if succRet == Constants.RetCode.Ok {
-				getSmsCaptchaRespErrorCode := sendMessage(req.Num, req.CountryCode, captcha)
-				if getSmsCaptchaRespErrorCode != 0 {
-					resp.Ret = Constants.RetCode.GetSmsCaptchaRespErrorCode
-					resp.GetSmsCaptchaRespErrorCode = getSmsCaptchaRespErrorCode
-				}
-			}
-		}
-		Logger.Debug("redis captcha", zap.String("key", redisKey), zap.String("captcha", captcha))
-	} else {
-		// 校验通过，进行验证码生成处理
-		captcha = strconv.Itoa(utils.Rand.Number(1000, 9999))
-		if succRet == Constants.RetCode.Ok {
-			getSmsCaptchaRespErrorCode := sendMessage(req.Num, req.CountryCode, captcha)
-			if getSmsCaptchaRespErrorCode != 0 {
-				resp.Ret = Constants.RetCode.GetSmsCaptchaRespErrorCode
-				resp.GetSmsCaptchaRespErrorCode = getSmsCaptchaRespErrorCode
-			}
-		}
-		storage.RedisManagerIns.Set(redisKey, captcha, ConstVals.Player.CaptchaExpire)
-		Logger.Debug("gen new captcha", zap.String("key", redisKey), zap.String("captcha", captcha))
-	}
-	if succRet == Constants.RetCode.IsTestAcc {
-		resp.Captcha = captcha
-	}
+	/* trx finished */
+
+  Logger.Debug("Generated and sent new captcha for", zap.String("key", redisKey), zap.String("captcha", captcha))
+
 	c.JSON(http.StatusOK, resp)
+}
+
+func sendMessage(mobile string, nationcode string, captchaCode string) int32 {
+	tel := &tel{
+		Mobile:     mobile,
+		Nationcode: nationcode,
+	}
+
+	captchaExpireMin := strconv.Itoa(int(Constants.Player.SmsExpiredSeconds) / 60)
+	params := [2]string{captchaCode, captchaExpireMin}
+	appkey := "xxxxxxxxxxxxxxx" // TODO: Fill in your own Tencent SMS credentials.
+	rand := strconv.Itoa(utils.Rand.Number(1000, 9999))
+	now := utils.UnixtimeSec()
+
+	hash := sha256.New()
+	hash.Write([]byte("appkey=" + appkey + "&random=" + rand + "&time=" + strconv.FormatInt(now, 10) + "&mobile=" + mobile))
+	md := hash.Sum(nil)
+	sig := hex.EncodeToString(md)
+
+	reqData := &captchaReq{
+		Ext:    "",
+		Extend: "",
+		Params: &params,
+		Sig:    sig,
+		Sign:   "yyyyyyyyy", // Fill in your Tencent SMS template sign
+		Tel:    tel,
+		Time:   now,
+		Tpl_id: 99999999, // Fill in your Tencent SMS template id
+	}
+	reqDataString, err := json.Marshal(reqData)
+	req := bytes.NewBuffer([]byte(reqDataString))
+	if err != nil {
+		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+		return -1
+	}
+
+  appid := "zzzzzzzzzzzzzzzzzzzzzzz" // Fill in your Tencent SMS appid
+	resp, err := http.Post("https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=" + appid + "&random="+rand,
+		"application/json",
+		req)
+	if err != nil {
+		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+	}
+	defer resp.Body.Close()
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+		return -1
+	}
+
+	type bodyStruct struct {
+		Result int32 `json:"result"`
+	}
+	var body bodyStruct
+	json.Unmarshal(respBody, &body)
+	Logger.Info("End of calling `sendMessage`", zap.Any("body", body))
+	return body.Result
 }
 
 func (p *playerController) AnonymousLogin(c *gin.Context) {
@@ -1307,7 +1309,7 @@ func (p *playerController) AnonymousLogin(c *gin.Context) {
 }
 
 func (p *playerController) SMSCaptchaLogin(c *gin.Context) {
-	var req SmsCaptchReq
+	var req SmsCaptchaReq
 	err := c.ShouldBindWith(&req, binding.FormPost)
 	api.CErr(c, err)
 	if err != nil || req.Num == "" || req.CountryCode == "" || req.Captcha == "" {
@@ -1523,10 +1525,10 @@ func (p *playerController) maybeCreateNewPlayer(req ExtAuthLoginReq, tx *sqlx.Tx
 	isUsingSmsAuth := false
 	extAuthId := req.extAuthId()
 	var authChannel int32
-	if _, ok := req.(*SmsCaptchReq); ok {
+	if _, ok := req.(*SmsCaptchaReq); ok {
 		isUsingSmsAuth = true
 		authChannel = int32(Constants.AuthChannel.Sms)
-		Logger.Info("maybeCreateNewPlayer", zap.Any("authChannel", authChannel), zap.Any("isUsingSmsAuth", isUsingSmsAuth), zap.Any("extAuthId", extAuthId), zap.Any("req.Num", req.(*SmsCaptchReq).Num))
+		Logger.Info("maybeCreateNewPlayer", zap.Any("authChannel", authChannel), zap.Any("isUsingSmsAuth", isUsingSmsAuth), zap.Any("extAuthId", extAuthId), zap.Any("req.Num", req.(*SmsCaptchaReq).Num))
 	} else if _, ok = req.(*AnonymousLoginReq); ok {
 		authChannel = int32(Constants.AuthChannel.DarwinDeviceUUID)
 		Logger.Info("maybeCreateNewPlayer", zap.Any("authChannel", authChannel), zap.Any("isUsingSmsAuth", isUsingSmsAuth), zap.Any("extAuthId", extAuthId))
@@ -1549,7 +1551,7 @@ func (p *playerController) maybeCreateNewPlayer(req ExtAuthLoginReq, tx *sqlx.Tx
 	}
 	if isUsingSmsAuth && Conf.IsTest {
 		// WARNING: This is a dirty hack!
-		player, err := models.GetPlayerByName(tx, req.(*SmsCaptchReq).Num)
+		player, err := models.GetPlayerByName(tx, req.(*SmsCaptchaReq).Num)
 		if err != nil {
 			return nil, err
 		}
@@ -1660,148 +1662,6 @@ type captchaReq struct {
 	Tel    *tel       `json:"tel"`
 	Time   int64      `json:"time"`
 	Tpl_id int32      `json:"tpl_id"`
-}
-
-func sendMessage(mobile string, nationcode string, captchaCode string) int32 {
-	tel := &tel{
-		Mobile:     mobile,
-		Nationcode: nationcode,
-	}
-	//短信有效期hardcode
-	captchaExpireMin := strconv.Itoa(int(ConstVals.Player.CaptchaExpire) / 60000000000)
-	params := [2]string{captchaCode, captchaExpireMin}
-  appkey := "xxxxxxxxxxxxxxx" // TODO: Fill in your own Tencent SMS credentials.
-	rand := strconv.Itoa(utils.Rand.Number(1000, 9999))
-	now := utils.UnixtimeSec()
-
-	hash := sha256.New()
-	hash.Write([]byte("appkey=" + appkey + "&random=" + rand + "&time=" + strconv.FormatInt(now, 10) + "&mobile=" + mobile))
-	md := hash.Sum(nil)
-	sig := hex.EncodeToString(md)
-
-	reqData := &captchaReq{
-		Ext:    "",
-		Extend: "",
-		Params: &params,
-		Sig:    sig,
-		Sign:   "洛克互娱",
-		Tel:    tel,
-		Time:   now,
-		Tpl_id: 207399,
-	}
-	reqDataString, err := json.Marshal(reqData)
-	req := bytes.NewBuffer([]byte(reqDataString))
-	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
-		return -1
-	}
-	resp, err := http.Post("https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=1400150185&random="+rand,
-		"application/json",
-		req)
-	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
-	}
-	defer resp.Body.Close()
-	respBody, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
-		return -1
-	}
-
-	type bodyStruct struct {
-		Result int32 `json:"result"`
-	}
-	var body bodyStruct
-	json.Unmarshal(respBody, &body)
-	Logger.Info("End of calling `sendMessage`", zap.Any("body", body))
-	return body.Result
-}
-
-func sendEmail(email string, captchaCode string) error {
-	confMap, err := api.LoadGlobalConfMap()
-	emailCaptchaSubject := confMap["emailCaptchaSubject"]
-	emailCaptchaSubjectStr := "Foodie验证码"
-	if emailCaptchaSubject != nil {
-		emailCaptchaSubjectStr = emailCaptchaSubject.(string)
-	}
-	emailCaptchaTemplate := confMap["emailCaptchaTemplate"]
-	emailCaptchaTemplateStr := "你好，你在FoodieClans的登录验证码是${captcha}，请确保在安全情况下使用\\r\\n"
-	if emailCaptchaTemplate != nil {
-		emailCaptchaTemplateStr = emailCaptchaTemplate.(string)
-	}
-	emailCaptchaTemplateStr = strings.Replace(emailCaptchaTemplateStr, "${captcha}", captchaCode, -1)
-
-	serverName := "smtp.exmail.qq.com"
-	serverAddr := "smtp.exmail.qq.com:465"
-	userName := "smtp@lokcol.com"
-	password := "Lock666"
-	auth := smtp.PlainAuth("", userName, password, serverName)
-
-	tlsconfig := &tls.Config{
-		InsecureSkipVerify: false,
-		ServerName:         serverName,
-	}
-
-	conn, err := tls.Dial("tcp", serverAddr, tlsconfig)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	c, err := smtp.NewClient(conn, serverName)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	defer c.Quit()
-
-	err = c.Auth(auth)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	err = c.Mail(userName)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	err = c.Rcpt(email)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	msgStr := fmt.Sprintf("To: %s\r\n"+
-		"From: %s\r\n"+
-		"Subject: %s\r\n"+
-		"\r\n"+
-		"%s", email, userName, emailCaptchaSubjectStr, emailCaptchaTemplateStr)
-	Logger.Info(emailCaptchaTemplateStr)
-
-	msg := []byte(msgStr)
-
-	w, err := c.Data()
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	_, err = w.Write(msg)
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	err = w.Close()
-	if err != nil {
-		Logger.Error("send email:", zap.Any("err", err))
-		return err
-	}
-
-	return nil
 }
 
 func (p *playerController) GoogleAuthLogin(c *gin.Context) {
@@ -2047,11 +1907,11 @@ type AnonymousByteDanceLoginReq struct {
 }
 
 func (req *AnonymousByteDanceLoginReq) extAuthId() string {
-  if nil == req.CachedUuid {
-    return ""
-  } else {
-    return *req.CachedUuid
-  }
+	if nil == req.CachedUuid {
+		return ""
+	} else {
+		return *req.CachedUuid
+	}
 }
 
 func (p *playerController) AnonymousByteDanceLogin(c *gin.Context) {
@@ -2075,7 +1935,7 @@ func (p *playerController) AnonymousByteDanceLogin(c *gin.Context) {
 			return
 		}
 
-    req.CachedUuid = newUuid
+		req.CachedUuid = newUuid
 		toRetNewUuid = *newUuid
 		player, err = p.maybeCreateNewPlayer(&req, tx)
 		if err != nil {
@@ -2084,10 +1944,10 @@ func (p *playerController) AnonymousByteDanceLogin(c *gin.Context) {
 		}
 	} else {
 		authBinding, err := models.GetPlayerAuthBinding(int32(Constants.AuthChannel.ByteDance), *req.CachedUuid, tx)
-    if nil == authBinding {
+		if nil == authBinding {
 			c.Set(api.RET, Constants.RetCode.NonexistentUUIDChannelAuthPair)
 			return
-    }
+		}
 		if err != nil {
 			c.Set(api.RET, Constants.RetCode.MysqlError)
 			return
@@ -2853,6 +2713,7 @@ func (p *playerController) GlobalConfModifyReq(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resp)
 }
+
 /* GlobalConfModifyReq [ends]. */
 
 /* StagePlayerBuildableBindingListQuery [begins]. */
@@ -3497,178 +3358,3 @@ func (p *playerController) GlobalCheckInConf(c *gin.Context) {
 }
 
 /* GlobalCheckInConf [ends]. */
-
-func (p *playerController) EmailCaptchaObtain(c *gin.Context) {
-	var req EmailCaptchReq
-	err := c.ShouldBindQuery(&req)
-	api.CErr(c, err)
-	if err != nil || req.Email == "" {
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-	redisKey := req.redisKey()
-	ttl, err := storage.RedisManagerIns.TTL(redisKey).Result()
-	Logger.Debug("redis ttl", zap.String("key", redisKey), zap.Duration("ttl", ttl))
-	api.CErr(c, err)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.UnknownError)
-		return
-	}
-	// redis剩余时长校验
-	if ttl >= ConstVals.Player.CaptchaMaxTTL {
-		c.Set(api.RET, Constants.RetCode.SmsCaptchaRequestedTooFrequently)
-		return
-	}
-	//Logger.Debug(ttl, Vals.Player.CaptchaMaxTTL)
-	var pass bool
-	var succRet int64
-	/*trx start*/
-	tx := storage.MySQLManagerIns.MustBegin()
-	defer tx.Rollback()
-	// 测试环境，优先从数据库校验，校验不通过，走手机号校验
-	exist, err := models.ExistPlayerByName(tx, req.Email)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	player, err := models.GetPlayerByName(tx, req.Email)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	if player != nil {
-		tokenExist, err := models.EnsuredPlayerLoginById(tx, player.ID)
-		if err != nil {
-			c.Set(api.RET, Constants.RetCode.MysqlError)
-			return
-		}
-		if tokenExist {
-			playerLogin, err := models.GetPlayerLoginByPlayerId(tx, player.ID)
-			if err != nil {
-				c.Set(api.RET, Constants.RetCode.MysqlError)
-				return
-			}
-			err = models.DelPlayerLoginByToken(tx, playerLogin.IntAuthToken)
-			if err != nil {
-				c.Set(api.RET, Constants.RetCode.MysqlError)
-				return
-			}
-		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	/*trx finish*/
-	if Conf.IsTest && exist {
-		succRet = Constants.RetCode.IsTestAcc
-		pass = true
-	}
-	if !pass {
-		if RE_EMAIL.MatchString(req.Email) {
-			succRet = Constants.RetCode.Ok
-			pass = true
-		}
-	}
-	if !pass {
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-	resp := struct {
-		Ret int64 `json:"ret"`
-		SmsCaptchReq
-	}{Ret: succRet}
-	var captcha string
-	if ttl >= 0 {
-		// 续验证码时长，重置剩余时长
-		storage.RedisManagerIns.Expire(redisKey, ConstVals.Player.CaptchaExpire)
-		captcha = storage.RedisManagerIns.Get(redisKey).Val()
-		if ttl >= ConstVals.Player.CaptchaExpire/4 {
-			if succRet == Constants.RetCode.Ok {
-				err := sendEmail(req.Email, captcha)
-				if err != nil {
-					resp.Ret = Constants.RetCode.GetEmailCaptchaRespErrorCode
-				}
-			}
-		}
-		Logger.Debug("redis captcha", zap.String("key", redisKey), zap.String("captcha", captcha))
-	} else {
-		// 校验通过，进行验证码生成处理
-		captcha = strconv.Itoa(utils.Rand.Number(1000, 9999))
-		if succRet == Constants.RetCode.Ok {
-			err := sendEmail(req.Email, captcha)
-			if err != nil {
-				resp.Ret = Constants.RetCode.GetEmailCaptchaRespErrorCode
-			}
-		}
-		storage.RedisManagerIns.Set(redisKey, captcha, ConstVals.Player.CaptchaExpire)
-		Logger.Debug("gen new captcha", zap.String("key", redisKey), zap.String("captcha", captcha))
-	}
-	if succRet == Constants.RetCode.IsTestAcc {
-		resp.Captcha = captcha
-	}
-	c.JSON(http.StatusOK, resp)
-}
-
-func (p *playerController) EmailCaptchaLogin(c *gin.Context) {
-	var req EmailCaptchReq
-	err := c.ShouldBindWith(&req, binding.FormPost)
-	api.CErr(c, err)
-	if err != nil || req.Email == "" || req.Captcha == "" {
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-	redisKey := req.redisKey()
-	captcha := storage.RedisManagerIns.Get(redisKey).Val()
-	Logger.Info("Comparing EmailCaptcha", zap.String("redis", captcha), zap.String("req", req.Captcha))
-	if captcha != req.Captcha {
-		c.Set(api.RET, Constants.RetCode.SmsCaptchaNotMatch)
-		return
-	}
-
-	tx := storage.MySQLManagerIns.MustBegin()
-	defer tx.Rollback()
-	player, err := p.maybeCreateNewPlayer(&req, tx)
-	api.CErr(c, err)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	now := utils.UnixtimeMilli()
-	token := utils.TokenGenerator(32)
-	expiresAt := now + 1000*int64(Constants.Player.IntAuthTokenTTLSeconds)
-	playerLogin := models.PlayerLogin{
-		CreatedAt:    now,
-		FromPublicIP: models.NewNullString(c.ClientIP()),
-		IntAuthToken: token,
-		PlayerID:     player.ID,
-		DisplayName:  player.DisplayName,
-		UpdatedAt:    now,
-	}
-	err = playerLogin.Insert(tx)
-	api.CErr(c, err)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	err = models.CheckUserAchievementExistAndAllocate(tx, player.ID)
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	err = tx.Commit()
-	if err != nil {
-		c.Set(api.RET, Constants.RetCode.MysqlError)
-		return
-	}
-	storage.RedisManagerIns.Del(redisKey)
-	resp := struct {
-		Ret       int64  `json:"ret"`
-		Token     string `json:"intAuthToken"`
-		ExpiresAt int64  `json:"expiresAt"`
-		PlayerID  int32  `json:"playerId"`
-	}{Constants.RetCode.Ok, token, expiresAt, player.ID}
-
-	c.JSON(http.StatusOK, resp)
-}

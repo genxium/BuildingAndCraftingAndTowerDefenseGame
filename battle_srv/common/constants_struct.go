@@ -37,8 +37,7 @@ type constants struct {
 		FailedToCreate                                         int64  `json:"FAILED_TO_CREATE"`
 		FailedToDelete                                         int64  `json:"FAILED_TO_DELETE"`
 		FailedToUpdate                                         int64  `json:"FAILED_TO_UPDATE"`
-		GetEmailCaptchaRespErrorCode                           int64  `json:"GET_EMAIL_CAPTCHA_RESP_ERROR_CODE"`
-		GetSmsCaptchaRespErrorCode                             int64  `json:"GET_SMS_CAPTCHA_RESP_ERROR_CODE"`
+		ErrSendingSms                             int64  `json:"ERR_SENDING_SMS"`
 		IncorrectCaptcha                                       int64  `json:"INCORRECT_CAPTCHA"`
 		IncorrectHandle                                        int64  `json:"INCORRECT_HANDLE"`
 		IncorrectPassword                                      int64  `json:"INCORRECT_PASSWORD"`
