@@ -25,7 +25,7 @@ require (
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 	github.com/leesper/go_rng v0.0.0-20171009123644-5344a9259b21
 	github.com/lib/pq v1.0.0 // indirect
-	github.com/mattn/go-colorable v0.0.9 // indirect
+	github.com/mattn/go-colorable v0.0.9
 	github.com/mattn/go-isatty v0.0.3 // indirect
 	github.com/mattn/go-sqlite3 v1.9.0
 	github.com/pkg/errors v0.8.0 // indirect

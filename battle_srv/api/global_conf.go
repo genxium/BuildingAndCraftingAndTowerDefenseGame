@@ -28,8 +28,10 @@ func LoadGlobalConfFromJsonFile() {
 	var v map[string]interface{}
 	err = json.NewDecoder(fd).Decode(&v)
 	ErrFatal(err)
-	conf, err := json.Marshal(v)
+	// conf, err := json.Marshal(v)
+	_, err = json.Marshal(v)
 	ErrFatal(err)
+  /*
 	cmdRes := storage.RedisManagerIns.SetNX("/cuisine/conf", conf, 0)
 	if nil != cmdRes.Err() {
 		ErrFatal(cmdRes.Err())
@@ -52,6 +54,7 @@ func LoadGlobalConfFromJsonFile() {
 		}
 		atomic.StoreUint32(Conf.GlobalConfEtag, crc32.ChecksumIEEE([]byte(conf)))
 	}
+  */
 
 	Logger.Info("load json successfully", zap.String("fp", fp))
 }

@@ -2,5 +2,5 @@ package storage
 
 func Init() {
 	initMySQL()
-	initRedis()
+	// initRedis()
 }

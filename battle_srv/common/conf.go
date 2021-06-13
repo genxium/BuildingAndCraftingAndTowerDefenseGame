@@ -70,8 +70,6 @@ func IsTest () {
 }
 
 func MustParseConfig() {
-  
-	// 初始所有指针数据
 	Conf = &config{
 		General:        new(generalConf),
 		MySQL:          new(mysqlConf),

@@ -1312,29 +1312,39 @@ func (p *playerController) SMSCaptchaLogin(c *gin.Context) {
 	var req SmsCaptchaReq
 	err := c.ShouldBindWith(&req, binding.FormPost)
 	api.CErr(c, err)
-	if err != nil || req.Num == "" || req.CountryCode == "" || req.Captcha == "" {
+	if nil != err || "" == req.Num || "" == req.CountryCode || "" == req.Captcha {
 		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
 		return
 	}
-	redisKey := req.redisKey()
-	captcha := storage.RedisManagerIns.Get(redisKey).Val()
-	Logger.Info("Comparing SmsCaptcha", zap.String("redis", captcha), zap.String("req", req.Captcha))
+
+	now := utils.UnixtimeMilli()
+
+	tx := storage.MySQLManagerIns.MustBegin()
+	defer tx.Rollback()
+
+  redisKey := req.redisKey()
+  persistentCaptcha, err := models.GetPersistentCaptchaByKey(tx, redisKey, now)
+  if nil != err || nil == persistentCaptcha {
+		c.Set(api.RET, Constants.RetCode.SmsCaptchaNotMatch)
+		return
+  }
+
+  captcha := persistentCaptcha.Value
+	Logger.Info("Comparing persisted SmsCaptcha", zap.Any("redisKey", redisKey), zap.String("persisted", captcha), zap.String("from req", req.Captcha))
+
 	if captcha != req.Captcha {
 		c.Set(api.RET, Constants.RetCode.SmsCaptchaNotMatch)
 		return
 	}
 
-	tx := storage.MySQLManagerIns.MustBegin()
-	defer tx.Rollback()
 	player, err := p.maybeCreateNewPlayer(&req, tx)
 	api.CErr(c, err)
 	if err != nil {
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
-	now := utils.UnixtimeMilli()
 	token := utils.TokenGenerator(32)
-	expiresAt := now + 1000*int64(Constants.Player.IntAuthTokenTTLSeconds)
+	intAuthTokenExpiresAt := now + 1000*int64(Constants.Player.IntAuthTokenTTLSeconds)
 	playerLogin := models.PlayerLogin{
 		CreatedAt:    now,
 		FromPublicIP: models.NewNullString(c.ClientIP()),
@@ -1366,7 +1376,7 @@ func (p *playerController) SMSCaptchaLogin(c *gin.Context) {
 		Token     string `json:"intAuthToken"`
 		ExpiresAt int64  `json:"expiresAt"`
 		PlayerID  int32  `json:"playerId"`
-	}{Constants.RetCode.Ok, token, expiresAt, player.ID}
+	}{Constants.RetCode.Ok, token, intAuthTokenExpiresAt, player.ID}
 
 	c.JSON(http.StatusOK, resp)
 }
