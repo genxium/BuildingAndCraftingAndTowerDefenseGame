@@ -32,7 +32,7 @@ func (p *StageInitialState) Insert(tx *sqlx.Tx) error {
 	if err != nil {
 		panic(err)
 	}
-	Logger.Info("StageInitialState.Insert, decoded data ", zap.Any("data", data))
+	Logger.Info("StageInitialState.Insert, decoded data ", zap.Any("StageId", data.StageId))
 	result, err := txInsert(tx, TBL_STAGE_INITIAL_STATE, []string{"id", "stage_id", "pb_b64_encoded_data", "pass_score", "diamond_price", "star_price"},
 		[]interface{}{p.Id, p.StageId, p.PbB64EncodedData, data.Goal.PassScore, data.DiamondPrice, data.StarPrice})
 	if err != nil {

@@ -35,7 +35,7 @@ func startOrFeedHeartbeatWatchdog(conn *websocket.Conn) bool {
 	if nil == conn {
 		return false
 	}
-	conn.SetReadDeadline(time.Now().Add(time.Millisecond * (ConstVals.Ws.WillKickIfInactiveFor)))
+	conn.SetReadDeadline(time.Now().Add(time.Millisecond * (time.Duration(Constants.Ws.WillKickIfInactiveFor))))
 	return true
 }
 
@@ -62,7 +62,7 @@ func Serve(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
-	Logger.Debug("ConstVals.Ws.WillKickIfInactiveFor", zap.Duration("v", ConstVals.Ws.WillKickIfInactiveFor))
+	Logger.Debug("Constants.Ws.WillKickIfInactiveFor", zap.Any("v", Constants.Ws.WillKickIfInactiveFor))
 
 	/**
 	 * WARNING: After successfully upgraded to use the "persistent connection" of http1.1/websocket protocol, you CANNOT overwrite the http1.0 resp status by `c.AbortWithStatus(...)` any more!
@@ -97,7 +97,7 @@ func Serve(c *gin.Context) {
 		 * - https://godoc.org/github.com/gorilla/websocket#pkg-constants.
 		 */
 		closeMessage := websocket.FormatCloseMessage(int(customRetCode), customRetMsg)
-		err := conn.WriteControl(websocket.CloseMessage, closeMessage, time.Now().Add(time.Millisecond*(ConstVals.Ws.WillKickIfInactiveFor)))
+		err := conn.WriteControl(websocket.CloseMessage, closeMessage, time.Now().Add(time.Millisecond*time.Duration(Constants.Ws.WillKickIfInactiveFor)))
 		if err != nil {
 			Logger.Error("Unable to send the CloseFrame control message to player(client-side):", zap.Any("playerId", playerId), zap.Error(err))
 		}
@@ -169,7 +169,7 @@ func Serve(c *gin.Context) {
 			if swapped := atomic.CompareAndSwapInt32(pConnHasBeenSignaledToClose, 1, 1); swapped {
 				return nil
 			}
-			conn.SetReadDeadline(time.Now().Add(ConstVals.Ws.WillKickIfInactiveFor))
+			conn.SetReadDeadline(time.Now().Add(time.Duration(Constants.Ws.WillKickIfInactiveFor)))
 			message, err := session.Receive()
 			if err != nil {
 				if websocket.IsUnexpectedCloseError(err, websocket.CloseNormalClosure) {

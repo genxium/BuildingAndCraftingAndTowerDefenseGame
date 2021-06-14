@@ -5,7 +5,6 @@ import (
 	"fmt"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
-	"server/api"
 	"server/common/utils"
 	"time"
 	"go.uber.org/zap"
@@ -66,12 +65,8 @@ func getPlayer(cond sq.Eq, tx *sqlx.Tx) (*Player, error) {
 }
 
 func (p *Player) Insert(tx *sqlx.Tx) error {
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		return err
-	}
 	diamondAutoFillUpperLimit := 10
-	pDiamondAutoFillUpperLimit := confMap["diamondAutoFillUpperLimit"]
+	pDiamondAutoFillUpperLimit := Conf.GlobalConf["diamondAutoFillUpperLimit"]
 	if pDiamondAutoFillUpperLimit != nil {
 		diamondAutoFillUpperLimit = int(pDiamondAutoFillUpperLimit.(float64))
 	}

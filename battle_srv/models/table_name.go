@@ -25,4 +25,5 @@ const (
 	TBL_STAGE_INITIAL_STATE              = "stage_initial_state"
 	TBL_PLAYER_STAGE_BINDING             = "player_stage_binding"
 	TBL_PLAYER_INGREDIENT_FOR_IDLE_GAME  = "player_ingredient_for_idlegame"
+	TBL_PERSISTENT_CAPTCHA  = "persistent_captcha"
 )

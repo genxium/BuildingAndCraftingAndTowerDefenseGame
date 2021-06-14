@@ -58,7 +58,7 @@ type WechatConf struct {
 type config struct {
 	General        *generalConf
 	MySQL          *mysqlConf
-	GlobalConf     string
+	GlobalConf     map[string]interface{}
 	Sio            *sioConf
 	Redis          *redisConf
 	GlobalConfEtag *uint32
@@ -66,12 +66,7 @@ type config struct {
   IsTest         bool
 }
 
-func IsTest () {
-}
-
 func MustParseConfig() {
-  
-	// 初始所有指针数据
 	Conf = &config{
 		General:        new(generalConf),
 		MySQL:          new(mysqlConf),
@@ -96,7 +91,7 @@ func MustParseConfig() {
 		Logger.Debug("conf", zap.String("dir", confDir))
 		if isNotExist(confDir) {
 			i := strings.LastIndex(pwd, "battle_srv")
-			if i == -1 {
+			if -1 == i {
 				Logger.Fatal("无法找到配置目录，cp -rn configs.template configs，并配置相关参数，再启动")
 			}
 			appRoot = pwd[:(i + 10)]
@@ -136,8 +131,7 @@ func MustParseConfig() {
 	LoadJSON("sio.json", Conf.Sio)
 	LoadJSON("redis.json", Conf.Redis)
 	LoadJSON("wechat.json", Conf.WechatGameConf)
-
-	//Logger.Debug(spew.Sdump(Conf))
+  LoadJSON("global_conf.json", &Conf.GlobalConf)
 }
 
 func setMySQLDSNURL(c *mysqlConf) {
@@ -157,10 +151,9 @@ func LoadJSON(fp string, v interface{}) {
 	fd, err := os.Open(fp)
 	ErrFatal(err)
 	defer fd.Close()
-	Logger.Info("open file successfully", zap.String("fp", fp))
-	err = json.NewDecoder(fd).Decode(v)
-	ErrFatal(err)
-	Logger.Info("load json successfully", zap.String("fp", fp))
+	Logger.Debug("opened file successfully", zap.String("fp", fp))
+	ErrFatal(json.NewDecoder(fd).Decode(v))
+	Logger.Info("loaded json successfully", zap.String("fp", fp))
 }
 
 // 启动过程可以使用，运行时不准使用

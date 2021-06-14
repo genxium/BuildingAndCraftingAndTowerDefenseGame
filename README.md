@@ -13,6 +13,8 @@ It's strongly recommended that you start playing with this repository with the "
 
 We decided to open source this project due to lack of resource to maintain it, therefore new feature proposal, bug report or pull-request might not be handled in time -- and we'll try our best.
 
+**Redis-server is no longer necessary to start the backend of this project, though a redis-server instance could still be used to limit API call rate, i.e. the "v1.Player.CallLimitController", which is now made optional.**
+
 # 1. Database Server
 
 The database product to be used for this project is MySQL 5.7.
@@ -113,21 +115,6 @@ user@proj-root/battle_srv> ServerEnv=TEST go test --count=1 -v server/cli_script
 user@proj-root/battle_srv> ServerEnv=TEST go test --count=1 -v server/cli_scripts -run SmsCaptchaLogin
 user@proj-root/battle_srv> ServerEnv=TEST go test --count=1 -v server/cli_scripts -run WsConnectAttackFirstVictim
 ```
-
-
-## 2.5 Troubleshooting
-
-### 2.5.1 Redis snapshot writing failure
-```
-ErrFatal        {"err": "MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error."}
-```
-
-You could consider setting
-```
-redis-cli> CONFIG SET stop-writes-on-bgsave-error NO
-```
-and restarting your `redis-server` process if having persistnet redis snapshot is not necessary.
-
 # 3. More about development
 ### 3.1 db2struct
 
@@ -184,29 +171,14 @@ According to http://docs.cocos.com/creator/manual/en/scripting/load-assets.html#
 shell> scp -r ./frontend/build/web-mobile/* ubuntu@idlegame.lokcol.com:/var/www/html/MineralChem/web-mobile/
 ```
 
-# 7. Proactively refreshing the Redis cache of "GlobalConf" after modified the file "battle_srv/configs/global_conf"
-The cold way.
-```
-# Stop the "battle_srv process" if you're going to delete the conf object in redis, otherwise the "battle_srv process" will go wrong. 
-user@proj-root/battle_srv> ./stop_daemon.sh
-user@proj-root> redis-cli
-redis-cli@shell> DEL /cuisine/conf
-redis-cli@shell> exit
-user@proj-root/battle_srv> ./start_daemon.sh
-```
-The hot way.
-```
-user@proj-root> node proactively_update_global_conf_in_redis.js 
-```
+# 7. Building to ByteDanceMiniGame
 
-# 8. Building to ByteDanceMiniGame
-
-### 8.1 Use CLI to build the project 
+### 7.1 Use CLI to build the project 
 ```
 - <proj-root/frontend> ./build_to_platform.sh bytedance 
 ```
 
-### 8.2 Uploading to corresponding remote dir 
+### 7.2 Uploading to corresponding remote dir 
 ```
 shell@proj-root> python ./frontend/uploader_scripts/upload_to_qiniu.py -d ./frontend/build/wechatgame/res/ --prefix="wechat-game" -a <MyAppKey> -s <MySecretKey> 
 shell@proj-root> rm -rf ./frontend/build/wechatgame/res/*
