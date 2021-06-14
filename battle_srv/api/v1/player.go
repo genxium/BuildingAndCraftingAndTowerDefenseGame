@@ -14,10 +14,8 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
-	"hash/crc32"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 	"server/api"
 	. "server/common"
 	"server/common/utils"
@@ -30,7 +28,6 @@ import (
 	"server/storage"
 	wechatVerifier "server/wechat"
 	"strconv"
-	"sync/atomic"
 	"time"
 )
 
@@ -1095,13 +1092,7 @@ func (p *playerController) PlayerIngredientProgressBoosting(c *gin.Context) {
 /* PlayerIngredientProgressBoostingReq [ends]. */
 
 func (p *playerController) GlobalConfRead(c *gin.Context) {
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
-
+	confMap := Conf.GlobalConf
 	resp := struct {
 		Ret                     int64       `json:"ret"`
 		AnonymousPlayerEnabled  interface{} `json:"anonymousPlayerEnabled"`
@@ -1139,6 +1130,7 @@ func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
     // When "true == IsTest", we allow obtaining the captcha by "magic player names", by now only the "test accounts" can have non-null field "player.name"
     testPlayer, err = models.GetPlayerByName(tx, req.Num)
     if err != nil {
+      Logger.Error("Error occurred when querying player by the input name", zap.Any("req.Num", req.Num), zap.Error(err))
       c.Set(api.RET, Constants.RetCode.MysqlError)
       return
     }
@@ -1164,33 +1156,36 @@ func (p *playerController) SmsCaptchaObtain(c *gin.Context) {
 
 	resp := struct {
 		Ret                        int64 `json:"ret"`
-    Captcha                    string `json:"string"`
+    Captcha                    string `json:"smsLoginCaptcha"`
 		SmsCaptchaReq
 	}{
     Ret: Constants.RetCode.Ok,
-    Captcha: captcha,
   }
 
   if nil != testPlayer {
+    Logger.Info("Obtaining captcha for a test account", zap.Any("magic name", req.Num), zap.Any("magic captcha", captcha))
     resp.Ret = Constants.RetCode.IsTestAcc
+    resp.Captcha = captcha
   }
 
 	nowSeconds := utils.UnixtimeSec()
   persistentCaptcha := &models.PersistentCaptcha {
-    Key: redisKey,
+    Authkey: redisKey,
     Value: captcha,
     CreatedAt: nowSeconds*1000,
-    ExpiresAt: models.NewNullInt64((nowSeconds + Constants.Player.SmsExpiredSeconds)*1000),
+    ExpiresAt: (nowSeconds + Constants.Player.SmsExpiredSeconds)*1000,
   }
 
   err = persistentCaptcha.Insert(tx)
 	if err != nil {
+    Logger.Error("Error occurred when inserting persistentCaptcha", zap.Any("persistentCaptcha", persistentCaptcha), zap.Error(err))
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
 
 	err = tx.Commit()
 	if err != nil {
+    Logger.Error("Error occurred when committing during `SmsCaptchaObtain`", zap.Error(err))
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
@@ -1231,7 +1226,7 @@ func sendMessage(mobile string, nationcode string, captchaCode string) int32 {
 	reqDataString, err := json.Marshal(reqData)
 	req := bytes.NewBuffer([]byte(reqDataString))
 	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+		Logger.Error("Error occurred when calling `sendMessage` #1", zap.Error(err))
 		return -1
 	}
 
@@ -1240,12 +1235,12 @@ func sendMessage(mobile string, nationcode string, captchaCode string) int32 {
 		"application/json",
 		req)
 	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+		Logger.Error("Error occurred when calling `sendMessage` #2", zap.Error(err))
 	}
 	defer resp.Body.Close()
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		Logger.Error("Error occurred when calling `sendMessage`", zap.Error(err))
+		Logger.Error("Error occurred when calling `sendMessage` #3", zap.Error(err))
 		return -1
 	}
 
@@ -1323,19 +1318,11 @@ func (p *playerController) SMSCaptchaLogin(c *gin.Context) {
 	defer tx.Rollback()
 
   redisKey := req.redisKey()
-  persistentCaptcha, err := models.GetPersistentCaptchaByKey(tx, redisKey, now)
+  persistentCaptcha, err := models.GetPersistentCaptchaByKey(tx, redisKey, req.Captcha, now)
   if nil != err || nil == persistentCaptcha {
 		c.Set(api.RET, Constants.RetCode.SmsCaptchaNotMatch)
 		return
   }
-
-  captcha := persistentCaptcha.Value
-	Logger.Info("Comparing persisted SmsCaptcha", zap.Any("redisKey", redisKey), zap.String("persisted", captcha), zap.String("from req", req.Captcha))
-
-	if captcha != req.Captcha {
-		c.Set(api.RET, Constants.RetCode.SmsCaptchaNotMatch)
-		return
-	}
 
 	player, err := p.maybeCreateNewPlayer(&req, tx)
 	api.CErr(c, err)
@@ -1370,7 +1357,6 @@ func (p *playerController) SMSCaptchaLogin(c *gin.Context) {
 		c.Set(api.RET, Constants.RetCode.MysqlError)
 		return
 	}
-	storage.RedisManagerIns.Del(redisKey)
 	resp := struct {
 		Ret       int64  `json:"ret"`
 		Token     string `json:"intAuthToken"`
@@ -1460,13 +1446,7 @@ func (p *playerController) TokenAuth(c *gin.Context) {
 func (p *playerController) CallLimitController(c *gin.Context) {
 	requestPath := c.Request.URL.Path
 	playerId := int32(c.GetInt(api.PLAYER_ID))
-	configMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("redis error \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		c.Abort()
-	}
-
+	configMap := Conf.GlobalConf
 	apiLimitConfig, exist := configMap["apiCallLimit"]
 	if !exist || apiLimitConfig == nil {
 		return
@@ -1489,7 +1469,7 @@ func (p *playerController) CallLimitController(c *gin.Context) {
 	limitKey := fmt.Sprintf("api:limit:%s:%v", requestPath, playerId)
 	currentCountQ := storage.RedisManagerIns.LLen(limitKey)
 	if currentCountQ.Err() != nil {
-		Logger.Warn("redis error \n", zap.Any(":", err))
+		Logger.Warn("redis error \n", zap.Any(":", currentCountQ.Err()))
 		c.Set(api.RET, Constants.RetCode.RedisError)
 		c.Abort()
 	}
@@ -1500,30 +1480,31 @@ func (p *playerController) CallLimitController(c *gin.Context) {
 
 	existQ := storage.RedisManagerIns.Exists(limitKey)
 	if existQ.Err() != nil {
-		Logger.Warn("redis error \n", zap.Any(":", err))
+		Logger.Warn("redis error \n", zap.Any(":", existQ.Err()))
 		c.Set(api.RET, Constants.RetCode.RedisError)
 		c.Abort()
 	}
 
 	now := utils.UnixtimeMilli()
 	if existQ.Val() == 0 {
-		err = storage.RedisManagerIns.Watch(func(tx *redis.Tx) error {
-			err := tx.RPush(limitKey, now).Err()
-			if err != nil {
-				return err
+		err := storage.RedisManagerIns.Watch(func(tx *redis.Tx) error {
+			localErr := tx.RPush(limitKey, now).Err()
+			if nil != localErr {
+				return localErr
 			}
 
-			err = tx.Expire(limitKey, time.Minute).Err()
-			return err
+			localErr = tx.Expire(limitKey, time.Minute).Err()
+			return localErr
 		}, limitKey)
-		if err != nil {
+
+		if nil != err {
 			Logger.Warn("redis error \n", zap.Any(":", err))
 			c.Set(api.RET, Constants.RetCode.RedisError)
 			c.Abort()
 		}
 	} else {
-		err = storage.RedisManagerIns.RPushX(limitKey, now).Err()
-		if err != nil {
+		err := storage.RedisManagerIns.RPushX(limitKey, now).Err()
+		if nil != err {
 			Logger.Warn("redis error \n", zap.Any(":", err))
 			c.Set(api.RET, Constants.RetCode.RedisError)
 			c.Abort()
@@ -2088,13 +2069,6 @@ func (p *playerController) PlayerSyncData(c *gin.Context) {
 		return
 	}
 
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
-
 	// Logger.Info("PlayerSyncData req", zap.Any("req", req))
 	proposedDiamondHolding := int32(req.Diamond) // TODO: Verify the feasibility of this update! -- YFLu, 2019-09-18
 	playerId := int32(c.GetInt(api.PLAYER_ID))
@@ -2266,7 +2240,7 @@ func (p *playerController) PlayerSyncData(c *gin.Context) {
 		playerRecipe,
 		toClaimPurchaseIngredientList,
 		playerIngredientForIdleGameList,
-		confMap["announcement"],
+		Conf.GlobalConf["announcement"],
 	}
 
 	c.JSON(http.StatusOK, resp)
@@ -2418,13 +2392,6 @@ func (p *playerController) GlobalBuildableLevelConfQuery(c *gin.Context) {
 		return
 	}
 
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
-
 	tx := storage.MySQLManagerIns.MustBegin()
 	defer tx.Rollback()
 
@@ -2465,8 +2432,8 @@ func (p *playerController) GlobalBuildableLevelConfQuery(c *gin.Context) {
 	}{
 		Constants.RetCode.Ok,
 		base64.StdEncoding.EncodeToString(resSyncData),
-		confMap["exchangeRateOfGoldToDiamond"],
-		confMap["exchangeRateOfTimeToDiamond"],
+		Conf.GlobalConf["exchangeRateOfGoldToDiamond"],
+		Conf.GlobalConf["exchangeRateOfTimeToDiamond"],
 		ingredientList,
 	}
 
@@ -2666,66 +2633,6 @@ func (p *playerController) PlayerIapDarwinMobileReceiptSubmit(c *gin.Context) {
 
 /* PlayerIapDarwinMobileReceiptSubmitReq [ends]. */
 
-/* GlobalConfModifyReq [begins]. */
-func (p *playerController) GlobalConfModifyReq(c *gin.Context) {
-	err := c.Request.ParseForm()
-
-	if err != nil {
-		Logger.Warn("req data error \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-
-	confStr, err := storage.RedisManagerIns.Get("/cuisine/conf").Bytes()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
-	var confMap map[string]interface{}
-	err = json.Unmarshal(confStr, &confMap)
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.InvalidRequestParam)
-		return
-	}
-	Logger.Info("Conf Form", zap.Any(":", c.Request.PostForm))
-	for key, val := range c.Request.PostForm {
-		if reflect.Slice != reflect.TypeOf(val).Kind() && len(val) != 1 {
-			confMap[key] = val
-		} else {
-			confMap[key] = val[0]
-		}
-		if reflect.String == reflect.TypeOf(confMap[key]).Kind() {
-			conVal, err := strconv.Atoi(confMap[key].(string))
-			if nil == err {
-				confMap[key] = conVal
-			}
-		}
-	}
-
-	Logger.Info("Conf Map", zap.Any(":", confMap))
-	newConf, _ := json.Marshal(confMap)
-	newEtag := crc32.ChecksumIEEE(newConf)
-	if atomic.LoadUint32(Conf.GlobalConfEtag) != newEtag {
-		storage.RedisManagerIns.Set("/cuisine/conf", newConf, 0)
-		api.WriteGlobalConf("global_conf.json", newConf)
-		atomic.StoreUint32(Conf.GlobalConfEtag, newEtag)
-	}
-
-	resp := struct {
-		Ret  int64       `json:"ret"`
-		Conf interface{} `json:"conf"`
-	}{
-		Constants.RetCode.Ok,
-		confMap,
-	}
-
-	c.JSON(http.StatusOK, resp)
-}
-
-/* GlobalConfModifyReq [ends]. */
-
 /* StagePlayerBuildableBindingListQuery [begins]. */
 type StagePlayerBuildableBindingListQueryReq struct {
 	Token     string `form:"intAuthToken"`
@@ -2749,12 +2656,7 @@ func (p *playerController) StagePlayerBuildableBindingListQuery(c *gin.Context) 
 
 	Logger.Info("StagePlayerBuildableBindingListQuery, ", zap.Any("playerId", playerId), zap.Any("stageId", stageId))
 
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
+	confMap := Conf.GlobalConf
 
 	tx := storage.MySQLManagerIns.MustBegin()
 	defer tx.Rollback()
@@ -3349,12 +3251,7 @@ func (p *playerController) PlayerCheckIn(c *gin.Context) {
 
 /* GlobalCheckInConf [begins]. */
 func (p *playerController) GlobalCheckInConf(c *gin.Context) {
-	confMap, err := api.LoadGlobalConfMap()
-	if err != nil {
-		Logger.Warn("error in conf \n", zap.Any(":", err))
-		c.Set(api.RET, Constants.RetCode.RedisError)
-		return
-	}
+	confMap := Conf.GlobalConf
 
 	resp := struct {
 		Ret                    int64       `json:"ret"`

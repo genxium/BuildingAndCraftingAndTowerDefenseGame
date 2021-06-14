@@ -8,28 +8,27 @@ import (
 )
 
 type PersistentCaptcha struct {
-	Key                      string     `json:"key" db:"key"`
-	Value                      string     `json:"value" db:"value"`
+	Authkey                      string     `json:"authkey" db:"authkey"`
+	Value                    string     `json:"value" db:"value"`
 	CreatedAt                 int64      `json:"created_at" db:"created_at"`
-	ExpiresAt                 NullInt64  `json:"expires_at" db:"expires_at"`
+	ExpiresAt                int64  `json:"expires_at" db:"expires_at"`
 }
 
 func (p *PersistentCaptcha) Insert(tx *sqlx.Tx) error {
-	result, err := txInsert(tx, "captcha", []string{"key", "value", "diamond", "created_at", "expires_at"},
-		[]interface{}{p.Key, p.Value, p.CreatedAt, p.ExpiresAt})
-	if err != nil {
-		return err
+	upsertQBaseStr := fmt.Sprintf("INSERT INTO %s (authkey, value, created_at, expires_at) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE value=?, expires_at=?", TBL_PERSISTENT_CAPTCHA)
+	upsertQ, localErr := tx.Preparex(upsertQBaseStr)
+	if localErr != nil {
+		return localErr
 	}
-	_, err = result.LastInsertId()
-	if nil != err {
-		return err
-	}
-	return nil
+	upsertedResult := upsertQ.MustExec(p.Authkey, p.Value, p.CreatedAt, p.ExpiresAt, p.Value, p.ExpiresAt)
+
+	_, err := upsertedResult.RowsAffected()
+  return err
 }
 
-func GetPersistentCaptchaByKey(tx *sqlx.Tx, key string, nowMillis int64) (*PersistentCaptcha, error) {
-  queryBaseStr := fmt.Sprintf("SELECT * FROM %s WHERE key=? AND expires_at>=? LIMIT 1", TBL_PERSISTENT_CAPTCHA)
-	query, args, err := sqlx.In(queryBaseStr, key, nowMillis)
+func GetPersistentCaptchaByKey(tx *sqlx.Tx, key string, value string, nowMillis int64) (*PersistentCaptcha, error) {
+  queryBaseStr := fmt.Sprintf("SELECT * FROM %s WHERE authkey=? AND value=? AND expires_at>=? LIMIT 1", TBL_PERSISTENT_CAPTCHA)
+	query, args, err := sqlx.In(queryBaseStr, key, value, nowMillis)
 
 	if err != nil {
 		Logger.Error("Error occurred during invocation of `GetPersistentCaptchaByKey`#1", zap.Error(err))

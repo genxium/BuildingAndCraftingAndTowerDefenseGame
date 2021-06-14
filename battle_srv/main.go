@@ -37,7 +37,6 @@ func main() {
 	// iap.InitTrustedCertManager()
 	env_tools.LoadPreConf()
 	env_tools.LoadMailboxTranscript()
-	api.LoadGlobalConfFromJsonFile()
 	if Conf.IsTest {
 		env_tools.MergeTestPlayerAccounts()
 	}
@@ -102,7 +101,6 @@ func setRouter(router *gin.Engine) {
 	{
 		globalRouter.GET("/AuthConf/Query", v1.Player.GlobalConfRead)
 		globalRouter.POST("/BuildableLevelConf/Query", v1.Player.GlobalBuildableLevelConfQuery)
-		globalRouter.POST("/Conf/Modify", v1.Player.GlobalConfModifyReq)
 		globalRouter.POST("/CheckInConf/Query", v1.Player.GlobalCheckInConf)
 	}
 
