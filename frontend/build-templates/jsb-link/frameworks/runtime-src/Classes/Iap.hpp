@@ -10,7 +10,7 @@ namespace CuisineMaster {
      * the wrapping of "se::Value" and within the "ScriptEngine instance".
      *
      * Here's the underlying reason. The destructor "~se::Value()" is playing evil if using
-     * se::Value(se::Object* toWrapObj) to construct, see. In short the `toWrapObj` will be called to
+     * se::Value(se::Object* toWrapObj) to construct. In short the `toWrapObj` will be called to
      * "unroot()" and "deRef()" within "~se::Value() thus se::Value.reset(...)". See source code of
      * `cocos2d_libs/js-bindings/jswrapper/Value.cpp` for details.
      *
